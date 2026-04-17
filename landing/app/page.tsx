@@ -1,0 +1,235 @@
+"use client";
+
+import { NewsletterSubscribeCard } from "@/components/sections/NewsletterSubscribeCard";
+import Image from "next/image";
+import Link from "next/link";
+
+const HERO_IMG =
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuBtdr3QiXvLIf9Lb3XGHkLbHOR241VdP8oyjyLirDfbDSzA3YrKRtA7spnoNZjybH2CRIjaukahmS3CyW6Me8EzayBIB1jHwq0blud6TcRndQveUUs6sE2VTSKl45lfXAy4of_-p0ODgLchB7UKPuHLNTZasd6tHJ6qWAYuyaDTXA5gCotBdWDIqtXDNgAsBDp_SBuHYxcKjSMFXfNQo0hWK-fV0tQQLvZUEoZI-IryOMFAbjTFqgSw_1mSORtNXn2xkxbAmXi5w-UL";
+
+const SPOTLIGHT_IMG =
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuAGp5HYsryP3UFArni3bU8iCX9SxPqZNSoC1BYcVk2JQ7Cqrr2SnngL6CevI6QYYVWiMyNjj7TsFdjOrpWp3WrWlIDtzgNG3oYYi9mdqdVcPmY6eXTaZkmqnI0C3Bu6lMZ7DXpwCsSGyUhhCkpFllk4NrfL8ELghpqyBCvsYDX4IrkFM0OlR2qJXIfvX57Bd-q0_4TSpm_t4lcyBQKr-8WDGtxaqHuTjXi_davOcPIdJOIe1ZOHxap1HJASvgpSgVtfYYNoGkJpUkvo";
+
+const VIDEO_THUMB =
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuD5T0W0_Y91waqV97QE2TqD8hcrvuYoIdKMGha795My3494qfwTyrzSiFwQtdsUyAkOJKV-IZHV8cHXKzkIbDAhPwfpwuxhH66eBo9ILs8H-JfF2D68X2aaGsj66H-z4WtD_2yaTbbGosHbuZIqMGT9-81Jw2cG6hVwYqYb6teZPAcHmlkHpKaLHnF_wMopYfsxW4dBVoZpuNRB8_fkppLi7NpD1PrYX43CAkVtmvYnFL3aDmm3GIbmuYrpuV4EXQfKy5YMZpNQBL_F";
+
+export default function Home() {
+  return (
+    <div className="relative flex min-h-full flex-col">
+      <div
+        className="parchment-grain pointer-events-none fixed inset-0 z-100"
+        aria-hidden
+      />
+
+      <main>
+        <section className="relative flex min-h-[min(921px,100dvh)] items-center justify-center overflow-hidden">
+          <div className="absolute inset-0 z-0">
+            <Image
+              src={HERO_IMG}
+              alt="Illuminated manuscript with gold leaf and gothic calligraphy on aged parchment"
+              fill
+              priority
+              className="object-cover"
+              sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-linear-to-b from-primary/60 via-primary/40 to-background" />
+          </div>
+          <div className="relative z-10 max-w-4xl px-6 text-center">
+            <span className="font-label mb-4 block uppercase tracking-[0.3em] text-tertiary-fixed-dim">
+              An Illuminated Scholarly Archive
+            </span>
+            <h1 className="font-headline mb-8 text-5xl leading-tight tracking-tight text-white md:text-8xl">
+              Voices of the Viceregal Era
+            </h1>
+            <p className="font-body mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-surface-container-low italic opacity-90 md:text-xl">
+              Traversing three centuries of history through the manuscripts,
+              melodies, and monumental works of Medieval México.
+            </p>
+            <div className="flex flex-col justify-center gap-6 md:flex-row">
+              <button
+                type="button"
+                className="bg-tertiary-fixed px-10 py-4 font-label text-sm font-bold uppercase tracking-widest text-on-tertiary-fixed transition-all hover:shadow-[0_0_20px_rgba(247,189,72,0.3)]"
+              >
+                Begin Research
+              </button>
+              <button
+                type="button"
+                className="border border-white/30 bg-transparent px-10 py-4 font-label text-sm uppercase tracking-widest text-white backdrop-blur-sm transition-all hover:bg-white hover:text-primary"
+              >
+                Explore Archive
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-screen-2xl px-8 py-32">
+          <div className="grid grid-cols-1 items-center gap-16 md:grid-cols-12">
+            <div className="relative md:col-span-7">
+              <div className="absolute -top-8 -left-8 -z-10 h-64 w-64 rounded-full bg-surface-container-high opacity-50" />
+              <Image
+                src={SPOTLIGHT_IMG}
+                alt="Colonial monastery cloisters with sunbeams through stone arches"
+                width={1200}
+                height={900}
+                className="aspect-4/3 w-full object-cover shadow-2xl grayscale transition-all duration-700 hover:grayscale-0"
+                sizes="(min-width: 768px) 58vw, 100vw"
+              />
+              <div className="absolute -right-12 -bottom-12 hidden bg-primary p-12 md:block">
+                <span className="font-headline text-3xl text-tertiary-fixed-dim">
+                  MDXXVI
+                </span>
+              </div>
+            </div>
+            <div className="md:col-span-5">
+              <h2 className="font-headline mb-4 text-sm uppercase tracking-widest text-tertiary-fixed-dim">
+                Spotlight Collection
+              </h2>
+              <h3 className="font-headline mb-6 text-4xl leading-tight text-primary md:text-5xl">
+                The Forgotten Monastery of Izamal
+              </h3>
+              <p className="mb-8 text-lg leading-relaxed text-on-surface-variant">
+                Unearthed from the dusty shelves of the Franciscan archives, this
+                collection chronicles the daily lives and spiritual synthesis of
+                the Maya and the Spanish friars during the pivotal years of the
+                16th century.
+              </p>
+              <div className="group flex cursor-pointer items-center gap-4">
+                <span className="h-px w-12 bg-primary transition-all group-hover:w-16" />
+                <Link
+                  href="/libros"
+                  className="font-label text-sm font-bold uppercase tracking-widest text-primary transition-colors group-hover:text-secondary"
+                >
+                  Examine the Scrolls
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-surface-container py-32">
+          <div className="mx-auto max-w-screen-2xl px-8">
+            <div className="mb-20 text-center">
+              <h2 className="font-headline mb-4 text-4xl text-primary">
+                The Archive
+              </h2>
+              <div className="manuscript-divider mx-auto w-48" />
+            </div>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              <div className="group flex min-h-80 flex-col justify-between bg-surface-container-lowest p-10 transition-colors duration-500 hover:bg-primary-container">
+                <div>
+                  <span className="material-symbols-outlined mb-6 block text-4xl text-tertiary-fixed-dim group-hover:text-white">
+                    auto_stories
+                  </span>
+                  <h4 className="font-headline mb-4 text-2xl text-primary group-hover:text-white">
+                    Books
+                  </h4>
+                  <p className="text-on-surface-variant group-hover:text-surface-variant">
+                    Annotated primary texts and rare first editions from the New
+                    Spain press.
+                  </p>
+                </div>
+                <div className="mt-8 font-label text-xs uppercase tracking-widest text-tertiary-fixed-dim">
+                  428 Volumes
+                </div>
+              </div>
+
+              <div className="group flex flex-col justify-between bg-surface-container-highest p-10 transition-colors duration-500 hover:bg-secondary-fixed">
+                <div>
+                  <span className="material-symbols-outlined mb-6 block text-4xl text-primary">
+                    history_edu
+                  </span>
+                  <h4 className="font-headline mb-4 text-2xl text-primary">
+                    Articles
+                  </h4>
+                  <p className="text-on-surface-variant">
+                    Scholarly critiques on ecclesiastical architecture and
+                    colonial governance.
+                  </p>
+                </div>
+                <div className="mt-8 font-label text-xs uppercase tracking-widest text-primary/60">
+                  Recent: Jan 2024
+                </div>
+              </div>
+
+              <div className="flex flex-col justify-between border-t-2 border-tertiary-fixed-dim bg-surface-container-lowest p-10">
+                <div>
+                  <span className="material-symbols-outlined mb-6 block text-4xl text-primary">
+                    podcasts
+                  </span>
+                  <h4 className="font-headline mb-4 text-2xl text-primary">
+                    Podcast
+                  </h4>
+                  <p className="text-on-surface-variant">
+                    Discussions with historians specializing in the syncretism of
+                    Medieval México.
+                  </p>
+                </div>
+                <Link
+                  href="/podcast"
+                  className="mt-8 flex items-center gap-2 font-label text-sm font-bold uppercase tracking-widest text-primary"
+                >
+                  Listen Now{" "}
+                  <span className="material-symbols-outlined text-sm">
+                    play_arrow
+                  </span>
+                </Link>
+              </div>
+
+              <div className="flex flex-col items-center gap-8 border-l-2 border-tertiary-fixed-dim bg-surface-container-highest p-10 md:col-span-2 md:flex-row">
+                <div className="flex-1">
+                  <span className="material-symbols-outlined mb-6 block text-4xl text-primary">
+                    movie_filter
+                  </span>
+                  <h4 className="font-headline mb-4 text-2xl text-primary">
+                    Videos
+                  </h4>
+                  <p className="text-on-surface-variant">
+                    Cinematic tours of forgotten ruins and visual analyses of
+                    cathedral facades.
+                  </p>
+                </div>
+                <div className="relative aspect-video w-full overflow-hidden bg-primary-container md:w-48">
+                  <Image
+                    src={VIDEO_THUMB}
+                    alt="Cathedral arches texture"
+                    fill
+                    className="object-cover opacity-50"
+                    sizes="(min-width: 768px) 192px, 100vw"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="material-symbols-outlined text-4xl text-white">
+                      play_circle
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col justify-between bg-surface-container-lowest p-10">
+                <div>
+                  <span className="material-symbols-outlined mb-6 block text-4xl text-primary">
+                    school
+                  </span>
+                  <h4 className="font-headline mb-4 text-2xl text-primary">
+                    Teaching
+                  </h4>
+                  <p className="text-on-surface-variant">
+                    Curricula and pedagogical resources for medievalists in the
+                    digital age.
+                  </p>
+                </div>
+                <Link
+                  href="#"
+                  className="mt-8 font-label text-sm text-primary underline decoration-tertiary-fixed-dim decoration-2 underline-offset-4"
+                >
+                  Access Resources
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <NewsletterSubscribeCard />
+      </main>
+    </div>
+  );
+}
