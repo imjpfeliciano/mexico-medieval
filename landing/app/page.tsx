@@ -56,66 +56,22 @@ export default function Home() {
                 type="button"
                 className="border border-white/30 bg-transparent px-10 py-4 font-label text-sm uppercase tracking-widest text-white backdrop-blur-sm transition-all hover:bg-white hover:text-primary"
               >
-                Explore Archive
+                View the Archive
               </button>
             </div>
           </div>
         </section>
 
-        <section className="mx-auto max-w-screen-2xl px-8 py-32">
-          <div className="grid grid-cols-1 items-center gap-16 md:grid-cols-12">
-            <div className="relative md:col-span-7">
-              <div className="absolute -top-8 -left-8 -z-10 h-64 w-64 rounded-full bg-surface-container-high opacity-50" />
-              <Image
-                src={SPOTLIGHT_IMG}
-                alt="Colonial monastery cloisters with sunbeams through stone arches"
-                width={1200}
-                height={900}
-                className="aspect-4/3 w-full object-cover shadow-2xl grayscale transition-all duration-700 hover:grayscale-0"
-                sizes="(min-width: 768px) 58vw, 100vw"
-              />
-              <div className="absolute -right-12 -bottom-12 hidden bg-primary p-12 md:block">
-                <span className="font-headline text-3xl text-tertiary-fixed-dim">
-                  MDXXVI
-                </span>
-              </div>
-            </div>
-            <div className="md:col-span-5">
-              <h2 className="font-headline mb-4 text-sm uppercase tracking-widest text-tertiary-fixed-dim">
-                Spotlight Collection
-              </h2>
-              <h3 className="font-headline mb-6 text-4xl leading-tight text-primary md:text-5xl">
-                The Forgotten Monastery of Izamal
-              </h3>
-              <p className="mb-8 text-lg leading-relaxed text-on-surface-variant">
-                Unearthed from the dusty shelves of the Franciscan archives, this
-                collection chronicles the daily lives and spiritual synthesis of
-                the Maya and the Spanish friars during the pivotal years of the
-                16th century.
-              </p>
-              <div className="group flex cursor-pointer items-center gap-4">
-                <span className="h-px w-12 bg-primary transition-all group-hover:w-16" />
-                <Link
-                  href="/libros"
-                  className="font-label text-sm font-bold uppercase tracking-widest text-primary transition-colors group-hover:text-secondary"
-                >
-                  Examine the Scrolls
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-surface-container py-32">
-          <div className="mx-auto max-w-screen-2xl px-8">
-            <div className="mb-20 text-center">
+        <section className="bg-surface-container py-24">
+          <div className="mx-auto max-w-screen-2xl px-6 md:px-8">
+            <div className="mb-16 text-center">
               <h2 className="font-headline mb-4 text-4xl text-primary">
                 The Archive
               </h2>
               <div className="manuscript-divider mx-auto w-48" />
             </div>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-              <div className="group flex min-h-80 flex-col justify-between bg-surface-container-lowest p-10 transition-colors duration-500 hover:bg-primary-container">
+              <div className="group flex min-h-72 flex-col justify-between bg-surface-container-lowest p-10 transition-colors duration-500 hover:bg-primary-container">
                 <div>
                   <span className="material-symbols-outlined mb-6 block text-4xl text-tertiary-fixed-dim group-hover:text-white">
                     auto_stories
@@ -129,7 +85,7 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="mt-8 font-label text-xs uppercase tracking-widest text-tertiary-fixed-dim">
-                  428 Volumes
+                  Explore Volumes
                 </div>
               </div>
 
@@ -147,7 +103,7 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="mt-8 font-label text-xs uppercase tracking-widest text-primary/60">
-                  Recent: Jan 2024
+                  Written Insights
                 </div>
               </div>
 
@@ -168,7 +124,7 @@ export default function Home() {
                   href="/podcast"
                   className="mt-8 flex items-center gap-2 font-label text-sm font-bold uppercase tracking-widest text-primary"
                 >
-                  Listen Now{" "}
+                  Listen Now
                   <span className="material-symbols-outlined text-sm">
                     play_arrow
                   </span>
@@ -221,14 +177,54 @@ export default function Home() {
                   href="#"
                   className="mt-8 font-label text-sm text-primary underline decoration-tertiary-fixed-dim decoration-2 underline-offset-4"
                 >
-                  Access Resources
+                  Browse Resources
                 </Link>
               </div>
             </div>
           </div>
         </section>
 
-        <NewsletterSubscribeCard />
+        <section className="mx-auto max-w-screen-2xl px-6 py-24 md:px-8">
+          <div className="grid grid-cols-1 items-center gap-16 md:grid-cols-12">
+            <div className="relative md:col-span-7">
+              <Image
+                src={SPOTLIGHT_IMG}
+                alt="Colonial monastery cloisters with sunbeams through stone arches"
+                width={1200}
+                height={900}
+                className="aspect-4/3 w-full object-cover shadow-2xl grayscale"
+                sizes="(min-width: 768px) 58vw, 100vw"
+              />
+              <div className="absolute -right-4 -bottom-4 bg-primary px-8 py-6 md:-right-8 md:-bottom-8">
+                <span className="font-headline text-3xl text-tertiary-fixed-dim">
+                  MDXXVI
+                </span>
+              </div>
+            </div>
+            <div className="md:col-span-5">
+              <h2 className="font-headline mb-4 text-sm uppercase tracking-widest text-tertiary-fixed-dim">
+                Spotlight Collection
+              </h2>
+              <h3 className="font-headline mb-6 text-4xl leading-tight text-primary md:text-5xl">
+                The Forgotten Monastery of Izamal
+              </h3>
+              <p className="mb-8 text-lg leading-relaxed text-on-surface-variant">
+                Unearthed from the dusty shelves of the Franciscan archives, this
+                collection chronicles the daily lives and spiritual synthesis of
+                the Maya and the Spanish friars during the pivotal years of the
+                16th century.
+              </p>
+              <Link
+                href="/libros"
+                className="font-label text-sm font-bold uppercase tracking-widest text-primary transition-colors hover:text-secondary"
+              >
+                Examine the Scrolls
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        <NewsletterSubscribeCard className="px-6 py-20 md:px-8" />
       </main>
     </div>
   );
