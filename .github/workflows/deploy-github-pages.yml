@@ -49,12 +49,13 @@ jobs:
             ${{ runner.os }}-pnpm-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-        working-directory: landing
+        run: |
+          test -f "${{ github.workspace }}/landing/package.json"
+          test -f "${{ github.workspace }}/landing/pnpm-lock.yaml"
+          pnpm --dir "${{ github.workspace }}/landing" install --frozen-lockfile
 
       - name: Build static site
-        run: pnpm run build
-        working-directory: landing
+        run: pnpm --dir "${{ github.workspace }}/landing" run build
 
       - name: Add CNAME for custom domain
         run: cp static-content/CNAME landing/out/CNAME
