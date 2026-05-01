@@ -6,39 +6,27 @@ import Image from "next/image";
 const HERO_IMG =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuCelkrcQ6V5XyJL6F8omWxm6qNTfUY66OqOQleD80Ij7fWT9JyBDH4CbPy788L-vUF80MQKSJdPfJ1mG0cffnFl3ErIXE_I_Z62uBbkLf5Yw0MupV9uVilgP0kJq-Lkcu1LcAQBRZtx4bkIWQVDQH6qxGCPeX1ocvMhtYl8mpEwy7iji6x48lYjLtf2w1-y3qW9DpZq_3H8fLSujaJHITjNFyA4DevF-OB0ykU02H1fG5LkTFXzsho1nFYVmjYhM_gLARE2z6VPWbF7";
 
+/** Sourced from static-html/libros.html (Book 1, Book 2). */
 const BOOKS = [
   {
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAaMmRj8wmegmaKc0OigsYJEiUaCSzPMWGaTBeJWLtlGQ9evPKRk3Gqk87J81ntJeyTKMArlWhzu59RJqxeLXavnMlvPICxZ55Xx2kE6Lsoj1yMVwePTp6AbX1XeS6NrQNY-8CLjLqZYMvMroBqbLmFoTCK7OzWm0WyiHybz_EQRrIqJXDrCDPo3dwueitEAshwPaxBUKY9RhM1lGPmHJeDHSBFikLoMaPeujxPoipxSbh4A1DJWoWSaBQw2FdD_VAOir9klxt8whNt",
-    alt: "Ancient leather book cover on a scholarly desk",
-    badge: "Unique",
-    year: "Anno 1541",
-    title: "Codex Mendoza",
-    description:
-      "An essential pictorial document of the Aztec Empire, commissioned by the first Viceroy of New Spain for Charles V.",
-    offset: false,
+    image: "https://brill.com/coverimage?doc=%2Ftitle%2F38771&width=200&type=webp",
+    alt: "Portada del libro The Making of Medieval Sardinia",
+    badge: "Brill",
+    year: "2021",
+    title: "The Making of Medieval Sardinia",
+    description: "Published by Brill",
+    href: "https://brill.com/display/title/38771",
+    ctaLabel: "Ver en Brill",
   },
   {
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCyYMjg3xc6Z93Kw5ShEV1fb-PiGmwNa6bKVXZB7QDV_-_UmAgyhgi--iD-V1qAidmw09SRg13c3tU1qB9GV24D2Cz88M6oCCt3yYvcJqPlFAB-8uasbkNxhWoUwOrpxJ2ktPaEqmd29yrxrMcHEHaQ1XtqZbg5Pv3-kQYhUbwMbSjMWLziSh3EmOpxX2beucL4fyFuGf8BCOjtp5qXUjFKjbOLldTVIO8zaNO90ZYfQ3kDlJ3WsBAAtvBivwzzTEEL1NmGcJcln8i4",
-    alt: "Illuminated manuscript page with gold leaf initials",
-    badge: "Sacred",
-    year: "Anno 1612",
-    title: "Missale Romanum",
-    description:
-      "An exquisitely gilded liturgical text used in the Metropolitan Cathedral of Mexico City during the early Baroque era.",
-    offset: true,
-  },
-  {
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAsFpaJ2hOauBdo0UnHfW4OAp8h7TJbw-E18UR4jo1ED-7uc80lc_Cm7VyLLJTnaBUzOQiAA_jQm7xiZWRNdqHGdHOdxWoYTN5gTXc1YsCAeKqtzGZl4IAfJogpu1H4koCKIAp4zzoqlK9rTCUKI95aWMk9IyQYDtlf9KA6PB6Foyj-pVtWvzx_B6apmS1WIseFEmguA7CGke0RJR4WongeXyWUxhEykw1xvySkT6_u_nMpZ7lbix2POUFPTz4DKTSfnovvTEBERREx",
-    alt: "Vintage leather-bound book with sunbeams",
-    badge: "Historical",
-    year: "Anno 1784",
-    title: "Plano de la Ciudad",
-    description:
-      "A meticulous copper-plate engraving depicting the urban expansion and hydraulic systems of Enlightenment-era México.",
-    offset: false,
+    image: "https://media.bloomsbury.com/rep/bj/9781350133228.jpg",
+    alt: "Portada del libro County and Nobility in Norman Italy",
+    badge: "Bloomsbury",
+    year: "2020",
+    title: "County and Nobility in Norman Italy",
+    description: "Published by Bloomsbury",
+    href: "https://www.bloomsbury.com/uk/county-and-nobility-in-norman-italy-9781350133228/",
+    ctaLabel: "Ver en Bloomsbury",
   },
 ] as const;
 
@@ -158,13 +146,13 @@ export default function LibrosPage() {
         </section>
 
         <section className="mx-auto max-w-7xl px-8 py-20">
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 items-stretch gap-12 md:grid-cols-2 lg:grid-cols-3">
             {BOOKS.map((book) => (
               <article
                 key={book.title}
-                className={`group flex h-full flex-col border-t-2 border-tertiary-fixed/30 bg-surface-container-low p-1 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 ${book.offset ? "md:translate-y-8" : ""}`}
+                className="group flex h-full min-h-0 flex-col border-t-2 border-tertiary-fixed/30 bg-surface-container-low p-1 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5"
               >
-                <div className="relative aspect-3/4 overflow-hidden bg-surface-dim">
+                <div className="relative aspect-3/4 w-full shrink-0 overflow-hidden bg-surface-dim">
                   <Image
                     src={book.image}
                     alt={book.alt}
@@ -176,28 +164,30 @@ export default function LibrosPage() {
                     {book.badge}
                   </div>
                 </div>
-                <div className="flex grow flex-col p-8">
-                  <span className="font-label mb-2 text-xs tracking-widest text-tertiary-fixed-dim uppercase">
+                <div className="flex min-h-0 flex-1 flex-col p-8">
+                  <span className="font-label mb-2 shrink-0 text-xs tracking-widest text-tertiary-fixed-dim uppercase">
                     {book.year}
                   </span>
-                  <h3 className="font-headline mb-4 text-2xl leading-tight font-bold text-primary">
+                  <h3 className="font-headline mb-4 min-h-18 shrink-0 text-2xl leading-tight font-bold text-primary wrap-anywhere line-clamp-4">
                     {book.title}
                   </h3>
-                  <p className="mb-8 text-sm leading-relaxed font-light text-on-surface-variant">
+                  <p className="min-h-12 flex-1 text-sm leading-relaxed font-light text-on-surface-variant">
                     {book.description}
                   </p>
-                  <div className="mt-auto border-t border-outline-variant/10 pt-6">
-                    <button
-                      type="button"
+                  <div className="mt-auto shrink-0 border-t border-outline-variant/10 pt-6">
+                    <a
+                      href={book.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="group/btn flex w-full items-center justify-between border-b border-primary px-1 py-3 transition-all duration-300 hover:border-tertiary-fixed-dim"
                     >
                       <span className="font-label text-xs tracking-widest text-primary uppercase transition-colors group-hover/btn:text-tertiary-fixed-dim">
-                        Examine the Volume
+                        {book.ctaLabel}
                       </span>
                       <span className="material-symbols-outlined text-primary transition-transform group-hover/btn:translate-x-1 group-hover/btn:text-tertiary-fixed-dim">
-                        auto_stories
+                        open_in_new
                       </span>
-                    </button>
+                    </a>
                   </div>
                 </div>
               </article>

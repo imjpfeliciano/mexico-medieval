@@ -8,6 +8,16 @@ const nextConfig: NextConfig = {
         hostname: "lh3.googleusercontent.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "brill.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "media.bloomsbury.com",
+        pathname: "/**",
+      },
     ],
   },
 };
