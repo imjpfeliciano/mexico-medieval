@@ -1,11 +1,23 @@
 "use client";
 
+import Link from "next/link";
 import { NewsletterSubscribeCard } from "@/components/sections/NewsletterSubscribeCard";
 
 const SITE_ORIGIN = "https://www.mexicomedieval.org";
 
+type PaperEntry = {
+  year: string;
+  title: string;
+  context: string;
+  href: string;
+  documentType: "paper" | "presentation";
+  highlighted?: boolean;
+  /** When set, “View details” opens the in-app presentation details page. */
+  presentationSlug?: string;
+};
+
 /** Sourced from static-html/papers.html (Paper 1–3). */
-const PAPERS = [
+const PAPERS: readonly PaperEntry[] = [
   {
     year: "2025",
     title:
@@ -14,6 +26,7 @@ const PAPERS = [
     href: `${SITE_ORIGIN}/servos_otrashistorias.html`,
     documentType: "presentation",
     highlighted: true,
+    presentationSlug: "servos_otrashistorias",
   },
   {
     year: "2017",
@@ -29,7 +42,7 @@ const PAPERS = [
     href: "https://www.academia.edu/14145287/Counts_and_Counties_in_the_Norman_Mezzogiorno_The_Arrangement_of_the_Nobility_under_the_Hauteville_Monarchy",
     documentType: "paper",
   },
-] as const;
+];
 
 const highlightedFromData = [...PAPERS].find(
   (p) => "highlighted" in p && p.highlighted === true,
@@ -82,6 +95,31 @@ function ExternalLink({
     >
       {children}
     </a>
+  );
+}
+
+function PresentationDetailsLink({
+  slug,
+  href,
+  className,
+  children,
+}: {
+  slug?: string;
+  href: string;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  if (slug) {
+    return (
+      <Link href={`/papers/presentations/${slug}/details`} className={className}>
+        {children}
+      </Link>
+    );
+  }
+  return (
+    <ExternalLink href={href} className={className}>
+      {children}
+    </ExternalLink>
   );
 }
 
@@ -221,15 +259,18 @@ export default function PapersPage() {
                   </p>
                 </div>
                 <div className="w-full shrink-0 md:w-auto">
-                  <ExternalLink
+                  <PresentationDetailsLink
+                    slug={HIGHLIGHTED.presentationSlug}
                     href={HIGHLIGHTED.href}
                     className="flex w-full items-center justify-center gap-2 border border-primary bg-transparent px-8 py-3 text-sm font-medium text-primary transition-all hover:bg-primary hover:text-on-primary md:w-auto"
                   >
                     View details
                     <span className="material-symbols-outlined text-sm">
-                      open_in_new
+                      {HIGHLIGHTED.presentationSlug
+                        ? "arrow_forward"
+                        : "open_in_new"}
                     </span>
-                  </ExternalLink>
+                  </PresentationDetailsLink>
                 </div>
               </div>
             ) : null}
@@ -261,15 +302,16 @@ export default function PapersPage() {
                   </p>
                 </div>
                 <div className="w-full shrink-0 md:w-auto">
-                  <ExternalLink
+                  <PresentationDetailsLink
+                    slug={item.presentationSlug}
                     href={item.href}
                     className="flex w-full items-center justify-center gap-2 border border-primary bg-transparent px-8 py-3 text-sm font-medium text-primary transition-all hover:bg-primary hover:text-on-primary md:w-auto"
                   >
                     View details
                     <span className="material-symbols-outlined text-sm">
-                      open_in_new
+                      {item.presentationSlug ? "arrow_forward" : "open_in_new"}
                     </span>
-                  </ExternalLink>
+                  </PresentationDetailsLink>
                 </div>
               </div>
             ))}

@@ -10,7 +10,8 @@ export const siteNavItems: SiteNavItem[] = [
   { href: "/podcast", label: "Podcast" },
   { href: "/videos", label: "Videos" },
   { href: "/papers", label: "Papers" },
-  { href: "#", label: "Teaching" },
+  { href: "/quienes-somos", label: "About" },
+  // { href: "#", label: "Teaching" },
 ];
 
 export function isNavItemActive(pathname: string, href: string): boolean {
