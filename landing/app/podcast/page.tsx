@@ -1,7 +1,9 @@
 "use client";
 
+import { useTranslations } from "@/components/i18n/LocaleProvider";
 import { NewsletterSubscribeCard } from "@/components/sections/NewsletterSubscribeCard";
 import Image from "next/image";
+import { useMemo } from "react";
 
 const HERO_TEXTURE =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuDUH7wOddMA3XCgIuP14AcwEUJOnqb91THh_CKmvG7Tj0LrBdnP8dVdw8MFax_SptBh69rcXgqxlC2RoN5YvnHymeYHQ94kIYYGULXLTVXGmn61UjKFmlXsaqy-br71iba-a62fzujdfCn01Jlhy2jk395C-rRiKLruy4bS6GhnaZwchaxF62EO3zIBQZL2Dh81xZleD2xZIo6OpFhehJ_5Qv1paCRAFXuWvYE5ISfJEyikerKCyOy7_mfa2is2NX6MSSHAUz-2z0oL";
@@ -9,22 +11,10 @@ const HERO_TEXTURE =
 const FEATURED_IMG =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuAIbz7caxEGDedMumvcfN8Ff10t-3i9cLSgg3kLgq8zLwUyP8Y4bdxiixp_CRyeQE7XmMOJfRDhxnm7V5RVBZUe7LN_sDW4G2mKnUDwqQ6YkvjkqN9Ze3kGU3VSmoER64QDGXrBtYCtLjQe2-IvnrwSPO5OeDQnrA7lkWFOVIbj2GiftrDB1bqP0GGzJXftLKloKE1MM12HA5aD_BzVvArgPhWEJGHU54FqH7LJmPhk-4OVHpFvP6gzO65HyA933fRssZXALFtfBZrC";
 
-const CARD_ART = [
-  {
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCvsgoAWQcwvkJI-ciwvnu70ZvoUMBdtqISqpN5I5zDuJOCcOyEQbpmRuqPnh2eLui0y-JXeQ6-XJEnfCvjUrWEZ_t2ices3y4kxWY1rRFkKmvTORZJSmzRQAMUytOsJrpx6nBmQQAI3BHxQyLT8OaF_UidtibpehWBdrmdx0W6xCCPuCexqSZTVRzlch-t3OGsr21p5EI2wSyQDUpuyMSYCRzvPFNqQVv0DEOM9MdPDzW3hHHJ6Ayev2uOS-u6dxc73Mr44USdwix8",
-    alt: "Medieval knight armor and sword on velvet",
-  },
-  {
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBn9KbIcZ1XA8zD1ZT2snQ7Iuz4nUUchwK_0KDAzSV6rrfO-qnM1OTvgRjpqMR-9ln3-c28Lv2JHBpcNtfuqjL_DP4w4iVl-74Mx7IRdHAeOv6awcTsHoCNd_HGYE_nZTAaLvltX-jcdVYekbuXWT0jgpWKCo182JdZTQp6WZ0S2zXZyB5-P8o48uS6yWdXac5XgeiGzY3NdVhKTju1btlY_LUPnNOnddsXYyW6Vjl2hMaJdCsZkLArlMVn4h3npN03kLtr0w0BZdfN",
-    alt: "Parchment scroll with wax seal on wooden table",
-  },
-  {
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuANPayenFBMFxeARbEqcH3fSbGUSU4glYaWUGRSggODsrP3sbf-WAytM8CpOPTcEItFesn-yCOqApcu-YRDUj4lwWkJOZomiioFgK3ZAYFJXAdJIyngk34_Q5TvzVBd2nYWLQWLHVXMWtT_Nr57YHrm9OYkjUKNInSP0eXShvIjhvcbgWAYHzilFNEKmDvc_CanHch1YYIYBk4b8FfFBRYioIfV5NaZV7X-QaNCGPQJZ4wD3hXmCFs75KYnoixdfQRAG8mDwRqH73Db",
-    alt: "Classical library with leather-bound books",
-  },
+const CARD_IMAGES = [
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuCvsgoAWQcwvkJI-ciwvnu70ZvoUMBdtqISqpN5I5zDuJOCcOyEQbpmRuqPnh2eLui0y-JXeQ6-XJEnfCvjUrWEZ_t2ices3y4kxWY1rRFkKmvTORZJSmzRQAMUytOsJrpx6nBmQQAI3BHxQyLT8OaF_UidtibpehWBdrmdx0W6xCCPuCexqSZTVRzlch-t3OGsr21p5EI2wSyQDUpuyMSYCRzvPFNqQVv0DEOM9MdPDzW3hHHJ6Ayev2uOS-u6dxc73Mr44USdwix8",
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuBn9KbIcZ1XA8zD1ZT2snQ7Iuz4nUUchwK_0KDAzSV6rrfO-qnM1OTvgRjpqMR-9ln3-c28Lv2JHBpcNtfuqjL_DP4w4iVl-74Mx7IRdHAeOv6awcTsHoCNd_HGYE_nZTAaLvltX-jcdVYekbuXWT0jgpWKCo182JdZTQp6WZ0S2zXZyB5-P8o48uS6yWdXac5XgeiGzY3NdVhKTju1btlY_LUPnNOnddsXYyW6Vjl2hMaJdCsZkLArlMVn4h3npN03kLtr0w0BZdfN",
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuANPayenFBMFxeARbEqcH3fSbGUSU4glYaWUGRSggODsrP3sbf-WAytM8CpOPTcEItFesn-yCOqApcu-YRDUj4lwWkJOZomiioFgK3ZAYFJXAdJIyngk34_Q5TvzVBd2nYWLQWLHVXMWtT_Nr57YHrm9OYkjUKNInSP0eXShvIjhvcbgWAYHzilFNEKmDvc_CanHch1YYIYBk4b8FfFBRYioIfV5NaZV7X-QaNCGPQJZ4wD3hXmCFs75KYnoixdfQRAG8mDwRqH73Db",
 ] as const;
 
 const APPLE_SHOW_URL =
@@ -177,25 +167,11 @@ function groupBySeries<T extends { series: string }>(
 
 const SPOTIFY_SERIES_GROUPS = groupBySeries(SPOTIFY_GUEST_SPOTS);
 
-const MEXICO_MEDIEVAL_AUDIO_CARDS = MEXICO_MEDIEVAL_ITEMS.map((item, i) => {
-  const art = CARD_ART[i % CARD_ART.length];
-  const isShow = item.documentType === "appleShow";
-  return {
-    ...item,
-    image: art.image,
-    alt: art.alt,
-    volume: isShow
-      ? "México Medieval — Serie"
-      : "México Medieval — Episodio",
-    date: "Apple Podcasts",
-    duration: isShow ? "Serie completa" : "Episodio",
-    progress: 0,
-    current: "0:00",
-    total: "—",
-    playIcon: "play_arrow" as const,
-    detailLabel: isShow ? "Abrir en Apple Podcasts" : "Escuchar episodio",
-  };
-});
+const cardAltKeys = [
+  "podcastPage.cardAlt1",
+  "podcastPage.cardAlt2",
+  "podcastPage.cardAlt3",
+] as const;
 
 type PodcastEpisodeCardProps = {
   image: string;
@@ -210,6 +186,7 @@ type PodcastEpisodeCardProps = {
   playIcon: "play_arrow" | "pause";
   listenHref: string;
   detailLabel: string;
+  listenAria: string;
 };
 
 function PodcastEpisodeCard({
@@ -225,6 +202,7 @@ function PodcastEpisodeCard({
   playIcon,
   listenHref,
   detailLabel,
+  listenAria,
 }: PodcastEpisodeCardProps) {
   return (
     <div className="group flex h-full flex-col overflow-hidden rounded-lg border border-primary/5 bg-surface shadow-sm transition-shadow hover:shadow-md">
@@ -244,7 +222,7 @@ function PodcastEpisodeCard({
               target="_blank"
               rel="noopener noreferrer"
               className="flex h-10 w-10 items-center justify-center rounded-full bg-tertiary-fixed text-on-tertiary-fixed transition-transform hover:scale-105"
-              aria-label="Listen"
+              aria-label={listenAria}
             >
               <span
                 className="material-symbols-outlined text-[20px]"
@@ -308,6 +286,36 @@ function PodcastEpisodeCard({
 }
 
 export default function PodcastPage() {
+  const { t } = useTranslations();
+
+  const mexicoMedievalAudioCards = useMemo(() => {
+    const alts = cardAltKeys.map((k) => t(k));
+    return MEXICO_MEDIEVAL_ITEMS.map((item, i) => {
+      const image = CARD_IMAGES[i % CARD_IMAGES.length];
+      const alt = alts[i % alts.length] ?? "";
+      const isShow = item.documentType === "appleShow";
+      return {
+        ...item,
+        image,
+        alt,
+        volume: isShow
+          ? t("podcastPage.volumeShow")
+          : t("podcastPage.volumeEpisode"),
+        date: t("podcastPage.applePodcasts"),
+        duration: isShow
+          ? t("podcastPage.seriesComplete")
+          : t("podcastPage.episode"),
+        progress: 0,
+        current: "0:00",
+        total: "—",
+        playIcon: "play_arrow" as const,
+        detailLabel: isShow
+          ? t("podcastPage.openApple")
+          : t("podcastPage.listenEpisode"),
+      };
+    });
+  }, [t]);
+
   return (
     <div className="relative flex min-h-full flex-col">
       <div
@@ -329,21 +337,21 @@ export default function PodcastPage() {
           </div>
           <div className="relative z-10 mx-auto max-w-4xl text-center">
             <span className="font-label mb-6 block text-xs font-semibold tracking-[0.3em] text-tertiary-fixed-dim uppercase">
-              The Oral Archive
+              {t("podcastPage.heroKicker")}
             </span>
             <h1 className="font-headline mb-8 text-5xl leading-tight font-bold tracking-tight text-primary md:text-7xl">
-              History Reclaimed from the{" "}
-              <span className="font-normal italic">Global South</span>
+              {t("podcastPage.heroTitleBefore")}{" "}
+              <span className="font-normal italic">
+                {t("podcastPage.heroTitleAccent")}
+              </span>
             </h1>
             <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed font-light text-on-surface-variant md:text-xl">
-              Our podcast series explores the profound connections between the
-              medieval Mediterranean and the early modern Americas. We translate
-              scholarly rigor into narrative journeys through time.
+              {t("podcastPage.heroSub")}
             </p>
             <div className="flex justify-center gap-4">
               <a
                 href="#audio-volumes"
-                className="group flex items-center gap-3 rounded-md border-b-2 border-tertiary-fixed-dim bg-primary px-8 py-4 font-label font-semibold text-on-primary transition-all hover:bg-primary-container"
+                className="group flex items-center gap-3 rounded-md border-b-2 border-tertiary-fixed-dim bg-primary px-8 py-4 font-label font-semibold uppercase tracking-wide text-on-primary transition-all hover:bg-primary-container"
               >
                 <span
                   className="material-symbols-outlined"
@@ -351,7 +359,7 @@ export default function PodcastPage() {
                 >
                   play_arrow
                 </span>
-                START LISTENING
+                {t("podcastPage.startListening")}
               </a>
             </div>
           </div>
@@ -370,7 +378,7 @@ export default function PodcastPage() {
                 <div className="relative aspect-video overflow-hidden">
                   <Image
                     src={FEATURED_IMG}
-                    alt="Historical mural — navigation and mapmaking"
+                    alt={t("podcastPage.featuredImgAlt")}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                     sizes="(min-width: 1024px) 58vw, 100vw"
@@ -378,7 +386,7 @@ export default function PodcastPage() {
                   <div className="absolute inset-0 bg-linear-to-t from-primary/80 to-transparent" />
                   <div className="absolute bottom-0 p-10 text-on-primary">
                     <span className="mb-4 inline-block bg-tertiary-fixed px-3 py-1 font-label text-[10px] font-bold tracking-widest text-on-tertiary-fixed uppercase">
-                      Spotify
+                      {t("podcastPage.spotify")}
                     </span>
                     <h3 className="font-headline mb-2 text-3xl font-bold">
                       {TIEMPOS_IMPOSIBLES.title}
@@ -392,11 +400,10 @@ export default function PodcastPage() {
             </div>
             <div className="lg:col-span-5">
               <h2 className="font-headline mb-6 text-4xl leading-tight font-bold text-primary">
-                Featured Collaborations
+                {t("podcastPage.featuredCollaborations")}
               </h2>
               <p className="mb-8 leading-relaxed text-on-surface-variant">
-                Apariciones en otros podcasts y series: historiografía medieval
-                y divulgación desde México.
+                {t("podcastPage.collaborationsBody")}
               </p>
               <ul className="space-y-6">
                 <li className="flex items-start gap-4 rounded-md border-l-4 border-tertiary-fixed-dim bg-surface-container-low p-4">
@@ -428,7 +435,7 @@ export default function PodcastPage() {
                       rel="noopener noreferrer"
                       className="font-headline font-bold text-primary underline-offset-4 hover:underline"
                     >
-                      Se Tenía Que Decir
+                      {t("podcastPage.seTeniaQueDecir")}
                     </a>
                     <p className="mt-1 text-sm text-on-surface-variant">
                       {SE_TENIA_QUE_DECIR_EPISODE.title}
@@ -448,10 +455,10 @@ export default function PodcastPage() {
             <div className="mb-16 flex flex-col items-end justify-between gap-6 md:flex-row">
               <div>
                 <h2 className="font-headline text-4xl font-bold text-primary">
-                  Audio Volumes
+                  {t("podcastPage.audioVolumes")}
                 </h2>
                 <p className="mt-2 text-on-surface-variant">
-                  México Medieval en Apple Podcasts
+                  {t("podcastPage.appleSubtitle")}
                 </p>
               </div>
               <div className="flex gap-2">
@@ -461,12 +468,12 @@ export default function PodcastPage() {
                   rel="noopener noreferrer"
                   className="rounded-md bg-surface-container-highest px-4 py-2 font-label text-xs font-bold tracking-widest text-primary uppercase transition-colors hover:bg-tertiary-fixed-dim"
                 >
-                  Ver serie
+                  {t("podcastPage.viewSeries")}
                 </a>
               </div>
             </div>
             <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
-              {MEXICO_MEDIEVAL_AUDIO_CARDS.map((ep) => (
+              {mexicoMedievalAudioCards.map((ep) => (
                 <PodcastEpisodeCard
                   key={ep.listenHref}
                   image={ep.image}
@@ -481,6 +488,7 @@ export default function PodcastPage() {
                   playIcon={ep.playIcon}
                   listenHref={ep.listenHref}
                   detailLabel={ep.detailLabel}
+                  listenAria={t("podcastPage.listenAria")}
                 />
               ))}
             </div>
@@ -491,7 +499,7 @@ export default function PodcastPage() {
                 rel="noopener noreferrer"
                 className="inline-block border-2 border-primary/20 px-10 py-4 font-label font-bold tracking-widest text-primary uppercase transition-all hover:bg-primary hover:text-on-primary"
               >
-                Discover Entire Archive
+                {t("podcastPage.discoverArchive")}
               </a>
             </div>
           </div>
@@ -506,34 +514,37 @@ export default function PodcastPage() {
             >
               <div className="mb-12">
                 <span className="font-label mb-2 block text-xs font-bold tracking-widest text-tertiary-fixed-dim uppercase">
-                  Spotify
+                  {t("podcastPage.spotifyLabel")}
                 </span>
                 <h2 className="font-headline text-3xl font-bold text-primary md:text-4xl">
                   {group.series}
                 </h2>
                 <p className="mt-2 text-on-surface-variant">
-                  Episodios en esta serie
+                  {t("podcastPage.episodesInSeries")}
                 </p>
               </div>
               <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
                 {group.episodes.map((item, i) => {
-                  const art =
-                    CARD_ART[(groupIndex * 5 + i) % CARD_ART.length];
+                  const artIdx = (groupIndex * 5 + i) % CARD_IMAGES.length;
+                  const image = CARD_IMAGES[artIdx];
+                  const alt =
+                    t(cardAltKeys[artIdx % cardAltKeys.length] ?? "podcastPage.cardAlt1");
                   return (
                     <PodcastEpisodeCard
                       key={item.listenHref}
-                      image={art.image}
-                      alt={art.alt}
+                      image={image}
+                      alt={alt}
                       title={item.title}
-                      volume="Spotify"
-                      date="Spotify"
-                      duration="Episodio"
+                      volume={t("podcastPage.spotifyLabel")}
+                      date={t("podcastPage.spotifyLabel")}
+                      duration={t("podcastPage.episode")}
                       progress={0}
                       current="0:00"
                       total="—"
                       playIcon="play_arrow"
                       listenHref={item.listenHref}
-                      detailLabel="Abrir en Spotify"
+                      detailLabel={t("podcastPage.openSpotify")}
+                      listenAria={t("podcastPage.listenAria")}
                     />
                   );
                 })}

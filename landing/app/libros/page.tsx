@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "@/components/i18n/LocaleProvider";
 import { NewsletterSubscribeCard } from "@/components/sections/NewsletterSubscribeCard";
 import Image from "next/image";
 
@@ -16,7 +17,7 @@ const BOOKS = [
     title: "The Making of Medieval Sardinia",
     description: "Published by Brill",
     href: "https://brill.com/display/title/38771",
-    ctaLabel: "Ver en Brill",
+    ctaKey: "libros.ctaBrill" as const,
   },
   {
     image: "https://media.bloomsbury.com/rep/bj/9781350133228.jpg",
@@ -26,11 +27,13 @@ const BOOKS = [
     title: "County and Nobility in Norman Italy",
     description: "Published by Bloomsbury",
     href: "https://www.bloomsbury.com/uk/county-and-nobility-in-norman-italy-9781350133228/",
-    ctaLabel: "Ver en Bloomsbury",
+    ctaKey: "libros.ctaBloomsbury" as const,
   },
 ] as const;
 
 export default function LibrosPage() {
+  const { t } = useTranslations();
+
   return (
     <div className="min-h-full bg-background font-body text-on-background selection:bg-tertiary-fixed-dim selection:text-tertiary">
       <main>
@@ -38,7 +41,7 @@ export default function LibrosPage() {
           <div className="absolute inset-0 z-0">
             <Image
               src={HERO_IMG}
-              alt="Ancient parchment manuscript with illuminated initials"
+              alt={t("libros.heroAlt")}
               fill
               priority
               className="object-cover opacity-30 mix-blend-luminosity"
@@ -49,15 +52,13 @@ export default function LibrosPage() {
           </div>
           <div className="relative z-10 max-w-4xl px-6 text-center">
             <span className="font-label mb-4 block text-sm tracking-[0.3em] text-tertiary-fixed-dim uppercase">
-              The Digital Scriptorium
+              {t("libros.heroKicker")}
             </span>
             <h1 className="font-headline mb-6 text-5xl leading-tight font-bold text-white md:text-7xl">
-              Archive of Books
+              {t("libros.heroTitle")}
             </h1>
             <p className="mx-auto max-w-2xl text-lg leading-relaxed font-light text-on-primary-container md:text-xl">
-              Journey through the illuminated annals of México. From sacred
-              liturgies to the maps that defined New Spain, explore the ink and
-              spirit of five centuries.
+              {t("libros.heroSub")}
             </p>
             <div className="mt-10 flex justify-center">
               <div className="manuscript-divider w-32" />
@@ -70,74 +71,74 @@ export default function LibrosPage() {
             <div className="flex flex-wrap items-center gap-8">
               <div className="group">
                 <label className="font-label mb-2 block text-[10px] tracking-widest text-on-surface-variant uppercase transition-colors group-hover:text-tertiary-fixed-dim">
-                  Century
+                  {t("libros.filterCentury")}
                 </label>
                 <select
                   className="cursor-pointer border-0 border-b border-outline-variant/30 bg-transparent px-0 py-1 font-body text-sm text-on-surface focus:border-tertiary-fixed-dim focus:ring-0"
-                  aria-label="Filter by century"
+                  aria-label={t("libros.filterCenturyAria")}
                   defaultValue="all"
                 >
-                  <option value="all">All Eras</option>
-                  <option>XVI Century</option>
-                  <option>XVII Century</option>
-                  <option>XVIII Century</option>
+                  <option value="all">{t("libros.centuryAll")}</option>
+                  <option>{t("libros.centuryXvi")}</option>
+                  <option>{t("libros.centuryXvii")}</option>
+                  <option>{t("libros.centuryXviii")}</option>
                 </select>
               </div>
               <div className="group">
                 <label className="font-label mb-2 block text-[10px] tracking-widest text-on-surface-variant uppercase transition-colors group-hover:text-tertiary-fixed-dim">
-                  Subject Matter
+                  {t("libros.filterSubject")}
                 </label>
                 <select
                   className="cursor-pointer border-0 border-b border-outline-variant/30 bg-transparent px-0 py-1 font-body text-sm text-on-surface focus:border-tertiary-fixed-dim focus:ring-0"
-                  aria-label="Filter by subject"
+                  aria-label={t("libros.filterSubjectAria")}
                   defaultValue="all"
                 >
-                  <option value="all">All Subjects</option>
-                  <option>Cartography</option>
-                  <option>Genealogy</option>
-                  <option>Liturgical</option>
-                  <option>Natural History</option>
+                  <option value="all">{t("libros.subjectAll")}</option>
+                  <option>{t("libros.subjectCartography")}</option>
+                  <option>{t("libros.subjectGenealogy")}</option>
+                  <option>{t("libros.subjectLiturgical")}</option>
+                  <option>{t("libros.subjectNaturalHistory")}</option>
                 </select>
               </div>
               <div className="group">
                 <label className="font-label mb-2 block text-[10px] tracking-widest text-on-surface-variant uppercase transition-colors group-hover:text-tertiary-fixed-dim">
-                  Rarity
+                  {t("libros.filterRarity")}
                 </label>
                 <div className="mt-1 flex gap-2">
                   <button
                     type="button"
                     className="rounded-sm border border-outline-variant/30 px-3 py-1 text-xs transition-all hover:bg-tertiary-container hover:text-on-tertiary-container"
                   >
-                    Common
+                    {t("libros.rarityCommon")}
                   </button>
                   <button
                     type="button"
                     className="rounded-sm border border-transparent bg-tertiary-container px-3 py-1 text-xs text-on-tertiary-container"
                   >
-                    Sacred
+                    {t("libros.raritySacred")}
                   </button>
                   <button
                     type="button"
                     className="rounded-sm border border-outline-variant/30 px-3 py-1 text-xs transition-all hover:bg-tertiary-container hover:text-on-tertiary-container"
                   >
-                    Unique
+                    {t("libros.rarityUnique")}
                   </button>
                 </div>
               </div>
             </div>
             <div className="flex items-center gap-4 font-label text-sm tracking-tighter text-on-surface-variant uppercase">
-              <span className="opacity-60">Displaying 12 of 142 Volumes</span>
+              <span className="opacity-60">{t("libros.displaying")}</span>
               <button
                 type="button"
                 className="material-symbols-outlined rounded-full p-2 transition-colors hover:bg-surface-container-high"
-                aria-label="Grid view"
+                aria-label={t("libros.gridViewAria")}
               >
                 grid_view
               </button>
               <button
                 type="button"
                 className="material-symbols-outlined rounded-full p-2 transition-colors hover:bg-surface-container-high"
-                aria-label="List view"
+                aria-label={t("libros.listViewAria")}
               >
                 view_list
               </button>
@@ -182,7 +183,7 @@ export default function LibrosPage() {
                       className="group/btn flex w-full items-center justify-between border-b border-primary px-1 py-3 transition-all duration-300 hover:border-tertiary-fixed-dim"
                     >
                       <span className="font-label text-xs tracking-widest text-primary uppercase transition-colors group-hover/btn:text-tertiary-fixed-dim">
-                        {book.ctaLabel}
+                        {t(book.ctaKey)}
                       </span>
                       <span className="material-symbols-outlined text-primary transition-transform group-hover/btn:translate-x-1 group-hover/btn:text-tertiary-fixed-dim">
                         open_in_new
@@ -205,18 +206,18 @@ export default function LibrosPage() {
                 <span className="material-symbols-outlined text-lg">
                   chevron_left
                 </span>
-                Prev
+                {t("libros.prev")}
               </button>
               <span className="font-bold text-primary">
-                Folio{" "}
-                <span className="font-headline mx-2 text-lg italic">1</span> of
-                12
+                {t("libros.folio")}{" "}
+                <span className="font-headline mx-2 text-lg italic">1</span>{" "}
+                {t("libros.of")} 12
               </span>
               <button
                 type="button"
                 className="flex items-center gap-2 transition-colors hover:text-primary"
               >
-                Next
+                {t("libros.next")}
                 <span className="material-symbols-outlined text-lg">
                   chevron_right
                 </span>

@@ -1,17 +1,16 @@
 export type SiteNavItem = {
   href: string;
-  label: string;
+  labelKey: string;
 };
 
-/** Primary navigation — single source of truth for `SiteNavbar`. */
+/** Primary navigation — single source of truth for `SiteNavbar` and footer explore links. */
 export const siteNavItems: SiteNavItem[] = [
-  { href: "/libros", label: "Books" },
-  { href: "/articulos", label: "Articles" },
-  { href: "/podcast", label: "Podcast" },
-  { href: "/videos", label: "Videos" },
-  { href: "/papers", label: "Papers" },
-  { href: "/quienes-somos", label: "About" },
-  // { href: "#", label: "Teaching" },
+  { href: "/libros", labelKey: "nav.books" },
+  { href: "/articulos", labelKey: "nav.articles" },
+  { href: "/podcast", labelKey: "nav.podcast" },
+  { href: "/videos", labelKey: "nav.videos" },
+  { href: "/papers", labelKey: "nav.papers" },
+  { href: "/quienes-somos", labelKey: "nav.about" },
 ];
 
 export function isNavItemActive(pathname: string, href: string): boolean {

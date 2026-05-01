@@ -1,7 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "@/components/i18n/LocaleProvider";
 import { NewsletterSubscribeCard } from "@/components/sections/NewsletterSubscribeCard";
+import Link from "next/link";
 
 const SITE_ORIGIN = "https://www.mexicomedieval.org";
 
@@ -12,7 +13,6 @@ type PaperEntry = {
   href: string;
   documentType: "paper" | "presentation";
   highlighted?: boolean;
-  /** When set, “View details” opens the in-app presentation details page. */
   presentationSlug?: string;
 };
 
@@ -124,16 +124,17 @@ function PresentationDetailsLink({
 }
 
 export default function PapersPage() {
+  const { t } = useTranslations();
+
   return (
     <div className="relative min-h-full bg-[#fdf8ef] font-body text-on-background selection:bg-secondary-container selection:text-on-secondary-container">
       <main className="relative z-10 mx-auto max-w-7xl px-6 pt-10 pb-24 md:px-12 md:pt-14">
         <section className="mb-20 text-center">
           <h1 className="font-headline mb-6 text-5xl font-bold tracking-tight text-primary md:text-7xl">
-            Papers y Presentaciones
+            {t("papers.title")}
           </h1>
           <p className="font-body mx-auto max-w-2xl text-lg leading-relaxed text-on-surface-variant">
-            Presentaciones académicas en congresos y eventos, y papers en
-            repositorios académicos.
+            {t("papers.subtitle")}
           </p>
           <div className="mx-auto mt-12 max-w-md">
             <div className="manuscript-divider-fleuron w-full" />
@@ -149,10 +150,10 @@ export default function PapersPage() {
             </div>
             <div>
               <span className="font-label text-xs font-bold tracking-widest text-tertiary-fixed-dim uppercase">
-                Research Portal
+                {t("papers.researchPortal")}
               </span>
               <h2 className="font-headline text-3xl font-bold text-primary">
-                Academic Papers
+                {t("papers.academicPapers")}
               </h2>
             </div>
             <div className="ml-8 hidden h-px min-w-0 grow bg-outline-variant/30 md:block" />
@@ -175,7 +176,7 @@ export default function PapersPage() {
                     href={HIGHLIGHTED.href}
                     className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-medium text-on-primary transition-colors hover:bg-primary-container"
                   >
-                    View paper
+                    {t("papers.viewPaper")}
                     <span className="material-symbols-outlined text-sm">
                       open_in_new
                     </span>
@@ -205,7 +206,7 @@ export default function PapersPage() {
                     href={item.href}
                     className="flex items-center gap-1 text-sm font-bold text-primary decoration-tertiary-fixed underline-offset-4 hover:underline"
                   >
-                    View paper{" "}
+                    {t("papers.viewPaper")}{" "}
                     <span className="material-symbols-outlined text-xs">
                       arrow_forward
                     </span>
@@ -225,10 +226,10 @@ export default function PapersPage() {
             </div>
             <div>
               <span className="font-label text-xs font-bold tracking-widest text-tertiary-fixed-dim uppercase">
-                Live Events
+                {t("papers.liveEvents")}
               </span>
               <h2 className="font-headline text-3xl font-bold text-primary">
-                Speaker Presentations
+                {t("papers.speakerPresentations")}
               </h2>
             </div>
             <div className="ml-8 hidden h-px min-w-0 grow bg-outline-variant/30 md:block" />
@@ -248,7 +249,7 @@ export default function PapersPage() {
                       {HIGHLIGHTED.year}
                     </span>
                     <span className="text-xs text-on-surface-variant">
-                      Coloquio / congreso
+                      {t("papers.colloquium")}
                     </span>
                   </div>
                   <h3 className="font-headline mb-1 text-2xl font-bold text-primary">
@@ -264,7 +265,7 @@ export default function PapersPage() {
                     href={HIGHLIGHTED.href}
                     className="flex w-full items-center justify-center gap-2 border border-primary bg-transparent px-8 py-3 text-sm font-medium text-primary transition-all hover:bg-primary hover:text-on-primary md:w-auto"
                   >
-                    View details
+                    {t("papers.viewDetails")}
                     <span className="material-symbols-outlined text-sm">
                       {HIGHLIGHTED.presentationSlug
                         ? "arrow_forward"
@@ -291,7 +292,7 @@ export default function PapersPage() {
                       {item.year}
                     </span>
                     <span className="text-xs text-on-surface-variant">
-                      Coloquio / congreso
+                      {t("papers.colloquium")}
                     </span>
                   </div>
                   <h3 className="font-headline mb-1 text-2xl font-bold text-primary">
@@ -307,7 +308,7 @@ export default function PapersPage() {
                     href={item.href}
                     className="flex w-full items-center justify-center gap-2 border border-primary bg-transparent px-8 py-3 text-sm font-medium text-primary transition-all hover:bg-primary hover:text-on-primary md:w-auto"
                   >
-                    View details
+                    {t("papers.viewDetails")}
                     <span className="material-symbols-outlined text-sm">
                       {item.presentationSlug ? "arrow_forward" : "open_in_new"}
                     </span>

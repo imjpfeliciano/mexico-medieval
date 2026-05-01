@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useId } from "react";
+import { useTranslations } from "@/components/i18n/LocaleProvider";
 import { isNewsletterSubscriptionsEnabled } from "@/lib/feature-flags";
 
 export type NewsletterSubscribeCardProps = {
@@ -13,26 +14,23 @@ export type NewsletterSubscribeCardProps = {
   className?: string;
 };
 
-const defaultTitle = "The Archivist's Circle";
-
-const defaultDescription =
-  "Join our exclusive circle of scholars and enthusiasts to receive monthly illuminated dispatches and early access to the vaults.";
-
-const defaultPlaceholder = "Your electronic scroll address";
-
-const defaultSubmitLabel = "Join the Circle";
-
 function NewsletterSubscribeCardImpl({
-  title = defaultTitle,
-  description = defaultDescription,
-  placeholder = defaultPlaceholder,
-  submitLabel = defaultSubmitLabel,
+  title,
+  description,
+  placeholder,
+  submitLabel,
   footnote,
   className = "",
 }: NewsletterSubscribeCardProps) {
   const id = useId();
   const inputId = `${id}-newsletter-email`;
   const headingId = `${id}-heading`;
+  const { t } = useTranslations();
+
+  const resolvedTitle = title ?? t("newsletter.title");
+  const resolvedDescription = description ?? t("newsletter.description");
+  const resolvedPlaceholder = placeholder ?? t("newsletter.placeholder");
+  const resolvedSubmit = submitLabel ?? t("newsletter.submit");
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -50,24 +48,24 @@ function NewsletterSubscribeCardImpl({
         <div className="absolute top-0 left-0 h-full w-2 bg-tertiary-fixed-dim" />
         <div className="relative z-10 text-center">
           <h2 id={headingId} className="font-headline mb-6 text-3xl md:text-5xl">
-            {title}
+            {resolvedTitle}
           </h2>
           <p className="font-body mx-auto mb-10 max-w-xl text-lg text-surface-variant italic opacity-80">
-            {description}
+            {resolvedDescription}
           </p>
           <form
             className="mx-auto flex max-w-lg flex-col gap-4 md:flex-row"
             onSubmit={onSubmit}
           >
             <label htmlFor={inputId} className="sr-only">
-              Email
+              {t("common.email")}
             </label>
             <input
               id={inputId}
               name="email"
               type="email"
               required
-              placeholder={placeholder}
+              placeholder={resolvedPlaceholder}
               autoComplete="email"
               className="font-body flex-1 border-b border-white/30 bg-white/10 px-4 py-4 text-white placeholder:text-white/50 transition-all focus:bg-white/20 focus:outline-none"
             />
@@ -75,7 +73,7 @@ function NewsletterSubscribeCardImpl({
               type="submit"
               className="bg-tertiary-fixed px-8 py-4 font-label text-sm font-bold uppercase tracking-widest text-on-tertiary-fixed transition-colors hover:bg-white"
             >
-              {submitLabel}
+              {resolvedSubmit}
             </button>
           </form>
           {resolvedFootnote ? (

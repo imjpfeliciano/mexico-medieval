@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useTranslations } from "@/components/i18n/LocaleProvider";
 import { isNewsletterSubscriptionsEnabled } from "@/lib/feature-flags";
 import {
   footerExploreLinks,
@@ -14,6 +17,7 @@ const footerLinkClass =
 
 export function SiteFooter() {
   const showNewsletter = isNewsletterSubscriptionsEnabled();
+  const { t } = useTranslations();
 
   return (
     <footer
@@ -26,34 +30,33 @@ export function SiteFooter() {
         >
           <div className="space-y-4">
             <div className="font-headline text-xl text-primary italic dark:text-tertiary-fixed-dim">
-              México Medieval
+              {t("common.siteName")}
             </div>
             <p className="max-w-sm text-sm leading-relaxed text-primary-container dark:text-surface-variant/80">
-              An illuminated scholarly archive: manuscripts, podcasts, and
-              research on medieval Hispanic worlds.
+              {t("footer.tagline")}
             </p>
           </div>
 
-          <nav aria-label="Explore the archive">
-            <h2 className={footerHeadingClass}>Explore</h2>
+          <nav aria-label={t("footer.exploreArchive")}>
+            <h2 className={footerHeadingClass}>{t("footer.explore")}</h2>
             <ul className="space-y-3">
               {footerExploreLinks.map((item) => (
-                <li key={item.href + item.label}>
+                <li key={item.href + item.labelKey}>
                   <Link href={item.href} className={footerLinkClass}>
-                    {item.label}
+                    {t(item.labelKey)}
                   </Link>
                 </li>
               ))}
             </ul>
           </nav>
 
-          <nav aria-label="Legal and contact">
-            <h2 className={footerHeadingClass}>Legal &amp; ethics</h2>
+          <nav aria-label={t("footer.legalContact")}>
+            <h2 className={footerHeadingClass}>{t("footer.legalEthics")}</h2>
             <ul className="space-y-3">
               {footerLegalLinks.map((item) => (
-                <li key={item.href + item.label}>
+                <li key={item.href + item.labelKey}>
                   <Link href={item.href} className={footerLinkClass}>
-                    {item.label}
+                    {t(item.labelKey)}
                   </Link>
                 </li>
               ))}
@@ -62,9 +65,9 @@ export function SiteFooter() {
 
           {showNewsletter ? (
             <div>
-              <h2 className={footerHeadingClass}>Newsletter</h2>
+              <h2 className={footerHeadingClass}>{t("footer.newsletter")}</h2>
               <p className="mb-4 text-sm text-primary-container/80 dark:text-surface-variant/75">
-                Occasional updates on new digitized material and episodes.
+                {t("footer.newsletterBlurb")}
               </p>
               <FooterNewsletterForm />
             </div>
@@ -73,20 +76,20 @@ export function SiteFooter() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-6 border-t border-outline-variant/20 pt-8 md:flex-row dark:border-outline-variant/30">
           <p className="text-center text-xs uppercase tracking-widest text-primary-container/70 md:text-left dark:text-surface-variant/65">
-            © MMXXIV México Medieval. An Illuminated Scholarly Archive.
+            {t("footer.copyright")}
           </p>
           <div className="flex gap-2 text-primary dark:text-tertiary-fixed-dim">
             <button
               type="button"
               className="material-symbols-outlined rounded-full p-2 transition-opacity hover:opacity-70"
-              aria-label="Share"
+              aria-label={t("footer.share")}
             >
               share
             </button>
             <button
               type="button"
               className="material-symbols-outlined rounded-full p-2 transition-opacity hover:opacity-70"
-              aria-label="Library"
+              aria-label={t("footer.library")}
             >
               local_library
             </button>

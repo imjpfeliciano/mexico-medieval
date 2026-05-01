@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "@/components/i18n/LocaleProvider";
 import { NewsletterSubscribeCard } from "@/components/sections/NewsletterSubscribeCard";
 
 /** Placeholder for future video entries (talks, lectures, appearances). */
@@ -13,6 +14,7 @@ type SiteVideo = {
 const VIDEOS: readonly SiteVideo[] = [];
 
 export default function VideosPage() {
+  const { t } = useTranslations();
   const hasVideos = VIDEOS.length > 0;
 
   return (
@@ -20,21 +22,20 @@ export default function VideosPage() {
       <main className="relative z-10 mx-auto max-w-7xl px-6 pt-10 pb-24 md:px-12 md:pt-14">
         <section className="mb-16 text-center">
           <span className="font-label mb-4 inline-block text-xs font-bold tracking-widest text-tertiary-fixed-dim uppercase">
-            The Digital Scriptorium
+            {t("videos.kicker")}
           </span>
           <h1 className="font-headline mb-6 text-5xl font-bold tracking-tight text-primary md:text-7xl">
-            Videos
+            {t("videos.title")}
           </h1>
           <p className="mx-auto max-w-2xl text-lg leading-relaxed text-on-surface-variant">
-            Lectures, appearances, and curated moving-image resources on medieval
-            México and related scholarship.
+            {t("videos.subtitle")}
           </p>
           <div className="mx-auto mt-12 max-w-md">
             <div className="manuscript-divider-fleuron w-full" />
           </div>
         </section>
 
-        <section aria-label="Video catalog">
+        <section aria-label={t("videos.catalogAria")}>
           {hasVideos ? (
             <ul className="grid gap-6 md:grid-cols-2">
               {VIDEOS.map((video) => (
@@ -71,12 +72,10 @@ export default function VideosPage() {
                 </span>
               </div>
               <h2 className="font-headline mb-3 text-2xl font-bold text-primary">
-                Nothing here yet
+                {t("videos.emptyTitle")}
               </h2>
               <p className="text-on-surface-variant leading-relaxed">
-                The video archive is not published yet. This page will list
-                talks and recordings when they are ready—no broken links, just
-                an empty shelf for now.
+                {t("videos.emptyBody")}
               </p>
             </div>
           )}

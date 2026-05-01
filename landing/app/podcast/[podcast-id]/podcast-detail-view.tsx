@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "@/components/i18n/LocaleProvider";
 import { NewsletterSubscribeCard } from "@/components/sections/NewsletterSubscribeCard";
 import type { PodcastEpisodeDetail } from "@/lib/podcast-episodes";
 import Image from "next/image";
@@ -20,6 +21,7 @@ export function PodcastDetailView({
 }: {
   episode: PodcastEpisodeDetail;
 }) {
+  const { t } = useTranslations();
   const p = episode.player.progressPercent;
 
   return (
@@ -128,7 +130,7 @@ export function PodcastDetailView({
                     backgroundColor: C_TERTIARY_FIXED,
                     color: C_TERTIARY,
                   }}
-                  aria-label="Play"
+                  aria-label={t("podcastDetail.play")}
                 >
                   <span
                     className="material-symbols-outlined text-4xl"
@@ -150,7 +152,7 @@ export function PodcastDetailView({
                         type="button"
                         className="transition-colors"
                         style={{ color: `${C_SURFACE_VAR}cc` }}
-                        aria-label="Back 10 seconds"
+                        aria-label={t("podcastDetail.back10")}
                       >
                         <span className="material-symbols-outlined">
                           replay_10
@@ -160,7 +162,7 @@ export function PodcastDetailView({
                         type="button"
                         className="transition-colors hover:text-white"
                         style={{ color: `${C_SURFACE_VAR}cc` }}
-                        aria-label="Forward 30 seconds"
+                        aria-label={t("podcastDetail.forward30")}
                       >
                         <span className="material-symbols-outlined">
                           forward_30
@@ -225,7 +227,7 @@ export function PodcastDetailView({
                   className="h-[3px] w-8"
                   style={{ backgroundColor: C_PRIMARY }}
                 />
-                Descripción del Pergamino
+                {t("podcastDetail.parchmentDescription")}
               </h2>
               <div
                 className="space-y-6 text-lg leading-relaxed"
@@ -248,14 +250,14 @@ export function PodcastDetailView({
             <section>
               <div className="mb-8 flex items-end justify-between">
                 <h2 className="font-headline text-3xl font-bold text-[#4f204c]">
-                  Transcripción
+                  {t("podcastDetail.transcript")}
                 </h2>
                 <button
                   type="button"
                   className="border-b-2 text-sm font-bold tracking-widest text-[#4f204c] uppercase transition-all hover:border-[#4f204c]"
                   style={{ borderColor: `${C_PRIMARY}33` }}
                 >
-                  Descargar PDF
+                  {t("podcastDetail.downloadPdf")}
                 </button>
               </div>
               <div
@@ -294,7 +296,7 @@ export function PodcastDetailView({
             >
               <div className="relative z-10">
                 <h3 className="font-headline mb-6 text-xl font-bold text-[#4f204c]">
-                  Manuscritos Relacionados
+                  {t("podcastDetail.relatedManuscripts")}
                 </h3>
                 <div className="space-y-8">
                   {episode.related.map((rel) => (
@@ -338,7 +340,7 @@ export function PodcastDetailView({
                   className="mt-8 block w-full rounded-sm border-2 py-4 text-center text-sm font-bold tracking-widest text-[#4f204c] uppercase transition-all hover:bg-[#4f204c] hover:text-white"
                   style={{ borderColor: C_PRIMARY }}
                 >
-                  Ver Todo el Archivo
+                  {t("podcastDetail.viewAllArchive")}
                 </Link>
               </div>
             </div>

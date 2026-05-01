@@ -2,7 +2,7 @@ import { siteNavItems } from "@/lib/site-nav-config";
 
 export type SiteFooterLink = {
   href: string;
-  label: string;
+  labelKey: string;
 };
 
 /** Section routes from primary nav (excludes in-page anchors such as Teaching). */
@@ -11,8 +11,8 @@ export const footerExploreLinks: SiteFooterLink[] = siteNavItems.filter(
 );
 
 export const footerLegalLinks: SiteFooterLink[] = [
-  { href: "#", label: "The Archivist's Circle" },
-  { href: "#", label: "Manuscript Rights" },
-  { href: "#", label: "Scholarly Ethics" },
-  { href: "/contacto", label: "Contact the Scribe" },
+  { href: "#", labelKey: "footer.archivistsCircle" },
+  { href: "#", labelKey: "footer.manuscriptRights" },
+  { href: "#", labelKey: "footer.scholarlyEthics" },
+  { href: "/contacto", labelKey: "footer.contactScribe" },
 ];

@@ -1,7 +1,9 @@
 "use client";
 
+import { useTranslations } from "@/components/i18n/LocaleProvider";
 import { NewsletterSubscribeCard } from "@/components/sections/NewsletterSubscribeCard";
 import Image from "next/image";
+import { useMemo } from "react";
 
 const FEATURED_IMG =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuC36OR9bfZWebubcigMG_gSkHrqIrwGug3GKwYO587LUZVmnKxpPBAVrIN5Nsyq2_S-PwJRlpSmPmVpWbK9j3r5L1YuVIO_6X8pC6ed-sw449I49hwQ6MKjKargpx_bJp2tBRlKro2UF3beVTmwtMLbR_k8o6_1JfOZOkRddUVThvnwP-BoPQPo1bCKgyKHI4OR0u1bvjE1NrKaxgOurNYRvLcTqh1ybvSn-uvGLHbLQ0BxE-7M7dRce-I9pG8Fz73WdS5yeiSqXD3u";
@@ -81,67 +83,66 @@ const highlightedFromData = [...ARTICLES].find(
 );
 
 const HIGHLIGHTED_ARTICLE =
-  highlightedFromData ??
-  PEER_REVIEWED_ARTICLES[0];
-
-const JOURNAL_ARTICLE_EXCERPT =
-  "Artículo de investigación publicado en revista especializada o acta académica.";
-
-const BOOK_CHAPTER_EXCERPT =
-  "Capítulo académico dictaminado por pares en volumen colectivo.";
-
-const JOURNAL_ARTICLES = PEER_REVIEWED_ARTICLES.filter(
-  (a) =>
-    !(
-      HIGHLIGHTED_ARTICLE?.documentType === "article" &&
-      a.href === HIGHLIGHTED_ARTICLE.href
-    ),
-).map((a) => ({
-  meta: `Peer-reviewed • ${a.year}`,
-  title: a.title,
-  excerpt: JOURNAL_ARTICLE_EXCERPT,
-  href: a.href,
-}));
-
-const BOOK_CHAPTERS = [...ARTICLES]
-  .filter((a) => a.documentType === "bookChapter")
-  .sort((a, b) => Number(b.year) - Number(a.year))
-  .map((a) => ({
-    chapter: `Capítulo • ${a.year}`,
-    title: a.title,
-    source: "In: The Making of Medieval Sardinia (Brill)",
-    meta: "Dictaminado por pares",
-    bg: "low" as const,
-    href: a.href,
-  }));
+  highlightedFromData ?? PEER_REVIEWED_ARTICLES[0];
 
 export default function ArticulosPage() {
+  const { t } = useTranslations();
+
+  const journalArticles = useMemo(() => {
+    const excerpt = t("articulos.journalExcerpt");
+    return PEER_REVIEWED_ARTICLES.filter(
+      (a) =>
+        !(
+          HIGHLIGHTED_ARTICLE?.documentType === "article" &&
+          a.href === HIGHLIGHTED_ARTICLE.href
+        ),
+    ).map((a) => ({
+      meta: `${t("articulos.metaPeerReviewed")} • ${a.year}`,
+      title: a.title,
+      excerpt,
+      href: a.href,
+    }));
+  }, [t]);
+
+  const bookChapters = useMemo(() => {
+    return [...ARTICLES]
+      .filter((a) => a.documentType === "bookChapter")
+      .sort((a, b) => Number(b.year) - Number(a.year))
+      .map((a) => ({
+        chapter: `${t("articulos.chapter")} • ${a.year}`,
+        title: a.title,
+        source: t("articulos.chapterSource"),
+        meta: t("articulos.peerReviewedBadge"),
+        bg: "low" as const,
+        href: a.href,
+      }));
+  }, [t]);
+
   return (
     <div className="articulos-dot-bg min-h-full font-body text-on-surface selection:bg-tertiary-fixed selection:text-on-tertiary-fixed">
       <main className="articulos-parchment-main mx-auto max-w-7xl px-6 pt-10 pb-24 md:pt-14">
         <header className="relative z-10 mb-20 text-center">
           <div className="mb-4 inline-block bg-surface-container px-3 py-1 font-medium text-xs text-tertiary tracking-[0.2em] uppercase">
-            Scholarly Collection
+            {t("articulos.collectionKicker")}
           </div>
           <h1 className="font-headline mb-6 text-5xl font-bold tracking-tight text-primary md:text-7xl">
-            The Digital Manuscript{" "}
-            <span className="font-normal italic">Articles</span>
+            {t("articulos.titleLine1")}{" "}
+            <span className="font-normal italic">{t("articulos.titleLine2")}</span>
           </h1>
           <p className="mx-auto max-w-2xl text-lg leading-relaxed text-on-surface-variant">
-            A curated selection of peer-reviewed research, journal entries, and
-            historical chapters exploring the medieval foundations of New Spain.
+            {t("articulos.subtitle")}
           </p>
         </header>
 
         <section className="relative z-10 mb-24">
           <div className="mb-10 flex items-center justify-between">
             <h2 className="font-headline text-3xl font-bold text-primary">
-              Recent Research
+              {t("articulos.recentResearch")}
             </h2>
             <div className="mx-8 h-0.5 min-w-0 grow bg-outline-variant/20" />
             <span className="font-label shrink-0 text-sm text-on-surface-variant italic">
               {HIGHLIGHTED_ARTICLE
-                ? `Latest • ${HIGHLIGHTED_ARTICLE.year}`
+                ? `${t("articulos.latest")} • ${HIGHLIGHTED_ARTICLE.year}`
                 : "—"}
             </span>
           </div>
@@ -161,7 +162,7 @@ export default function ArticulosPage() {
                 </div>
                 <div className="flex grow flex-col justify-center">
                   <div className="mb-4 text-sm font-bold tracking-widest text-tertiary-fixed-dim uppercase">
-                    Featured Publication
+                    {t("articulos.featuredPublication")}
                   </div>
                   <h3 className="font-headline mb-6 text-4xl leading-tight font-bold text-primary">
                     {HIGHLIGHTED_ARTICLE.title}
@@ -169,16 +170,16 @@ export default function ArticulosPage() {
                   <div className="mb-6 flex flex-wrap items-center gap-4 text-sm font-medium text-on-surface-variant">
                     <span>
                       {HIGHLIGHTED_ARTICLE.documentType === "article"
-                        ? "Peer-reviewed"
-                        : "Book chapter"}
+                        ? t("articulos.peerReviewed")
+                        : t("articulos.bookChapter")}
                     </span>
                     <span className="h-1 w-1 rounded-full bg-outline" />
                     <span>{HIGHLIGHTED_ARTICLE.year}</span>
                   </div>
                   <p className="mb-8 max-w-xl leading-relaxed text-on-surface-variant">
                     {HIGHLIGHTED_ARTICLE.documentType === "article"
-                      ? JOURNAL_ARTICLE_EXCERPT
-                      : BOOK_CHAPTER_EXCERPT}
+                      ? t("articulos.journalExcerpt")
+                      : t("articulos.chapterExcerpt")}
                   </p>
                   <div>
                     <a
@@ -188,8 +189,8 @@ export default function ArticulosPage() {
                       className="inline-flex items-center gap-3 bg-primary px-8 py-4 font-semibold text-on-primary shadow-lg shadow-primary/10 transition-all hover:opacity-90"
                     >
                       {HIGHLIGHTED_ARTICLE.documentType === "article"
-                        ? "View Full Source"
-                        : "View Chapter"}
+                        ? t("articulos.viewFullSource")
+                        : t("articulos.viewChapter")}
                       <span className="material-symbols-outlined text-lg">
                         open_in_new
                       </span>
@@ -205,12 +206,12 @@ export default function ArticulosPage() {
         <section className="relative z-10 mb-24">
           <div className="mb-12 flex items-center gap-6">
             <h2 className="font-headline shrink-0 text-3xl font-bold whitespace-nowrap text-primary">
-              Journal Articles
+              {t("articulos.journalArticles")}
             </h2>
             <div className="h-px w-full bg-outline-variant/30" />
           </div>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {JOURNAL_ARTICLES.map((a) => (
+            {journalArticles.map((a) => (
               <div
                 key={a.href}
                 className="flex h-full flex-col border-t-2 border-tertiary-fixed bg-surface-container-low p-8"
@@ -228,9 +229,9 @@ export default function ArticulosPage() {
                   href={a.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm font-bold text-primary decoration-tertiary-fixed-dim hover:underline"
+                  className="flex items-center gap-2 text-sm font-bold text-primary decoration-tertiary-fixed hover:underline"
                 >
-                  Read Article
+                  {t("articulos.readArticle")}
                   <span className="material-symbols-outlined text-base">
                     arrow_forward
                   </span>
@@ -243,12 +244,12 @@ export default function ArticulosPage() {
         <section className="relative z-10 mb-24">
           <div className="mb-12 flex items-center gap-6">
             <h2 className="font-headline shrink-0 text-3xl font-bold whitespace-nowrap text-primary">
-              Book Chapters
+              {t("articulos.bookChapters")}
             </h2>
             <div className="h-px w-full bg-outline-variant/30" />
           </div>
           <div className="space-y-6">
-            {BOOK_CHAPTERS.map((item) => (
+            {bookChapters.map((item) => (
               <div
                 key={item.href}
                 className={`group flex flex-col items-start justify-between p-6 transition-colors md:flex-row md:items-center ${
@@ -278,7 +279,7 @@ export default function ArticulosPage() {
                     rel="noopener noreferrer"
                     className="border-2 border-primary px-6 py-2 text-sm font-bold text-primary transition-all hover:bg-primary hover:text-on-primary"
                   >
-                    View Chapter
+                    {t("articulos.viewChapterBtn")}
                   </a>
                 </div>
               </div>

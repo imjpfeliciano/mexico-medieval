@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "@/components/i18n/LocaleProvider";
 import { NewsletterSubscribeCard } from "@/components/sections/NewsletterSubscribeCard";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,6 +15,8 @@ const VIDEO_THUMB =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuD5T0W0_Y91waqV97QE2TqD8hcrvuYoIdKMGha795My3494qfwTyrzSiFwQtdsUyAkOJKV-IZHV8cHXKzkIbDAhPwfpwuxhH66eBo9ILs8H-JfF2D68X2aaGsj66H-z4WtD_2yaTbbGosHbuZIqMGT9-81Jw2cG6hVwYqYb6teZPAcHmlkHpKaLHnF_wMopYfsxW4dBVoZpuNRB8_fkppLi7NpD1PrYX43CAkVtmvYnFL3aDmm3GIbmuYrpuV4EXQfKy5YMZpNQBL_F";
 
 export default function Home() {
+  const { t } = useTranslations();
+
   return (
     <div className="relative flex min-h-full flex-col">
       <div
@@ -26,7 +29,7 @@ export default function Home() {
           <div className="absolute inset-0 z-0">
             <Image
               src={HERO_IMG}
-              alt="Illuminated manuscript with gold leaf and gothic calligraphy on aged parchment"
+              alt={t("home.heroImgAlt")}
               fill
               priority
               className="object-cover"
@@ -36,27 +39,26 @@ export default function Home() {
           </div>
           <div className="relative z-10 max-w-4xl px-6 text-center">
             <span className="font-label mb-4 block uppercase tracking-[0.3em] text-tertiary-fixed-dim">
-              An Illuminated Scholarly Archive
+              {t("home.heroKicker")}
             </span>
             <h1 className="font-headline mb-8 text-5xl leading-tight tracking-tight text-white md:text-8xl">
-              Voices of the Viceregal Era
+              {t("home.heroTitle")}
             </h1>
             <p className="font-body mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-surface-container-low italic opacity-90 md:text-xl">
-              Traversing three centuries of history through the manuscripts,
-              melodies, and monumental works of Medieval México.
+              {t("home.heroSub")}
             </p>
             <div className="flex flex-col justify-center gap-6 md:flex-row">
               <button
                 type="button"
                 className="bg-tertiary-fixed px-10 py-4 font-label text-sm font-bold uppercase tracking-widest text-on-tertiary-fixed transition-all hover:shadow-[0_0_20px_rgba(247,189,72,0.3)]"
               >
-                Begin Research
+                {t("home.ctaResearch")}
               </button>
               <button
                 type="button"
                 className="border border-white/30 bg-transparent px-10 py-4 font-label text-sm uppercase tracking-widest text-white backdrop-blur-sm transition-all hover:bg-white hover:text-primary"
               >
-                View the Archive
+                {t("home.ctaArchive")}
               </button>
             </div>
           </div>
@@ -66,7 +68,7 @@ export default function Home() {
           <div className="mx-auto max-w-screen-2xl px-6 md:px-8">
             <div className="mb-16 text-center">
               <h2 className="font-headline mb-4 text-4xl text-primary">
-                The Archive
+                {t("home.archiveTitle")}
               </h2>
               <div className="manuscript-divider mx-auto w-48" />
             </div>
@@ -77,15 +79,14 @@ export default function Home() {
                     auto_stories
                   </span>
                   <h4 className="font-headline mb-4 text-2xl text-primary group-hover:text-white">
-                    Books
+                    {t("home.booksTitle")}
                   </h4>
                   <p className="text-on-surface-variant group-hover:text-surface-variant">
-                    Annotated primary texts and rare first editions from the New
-                    Spain press.
+                    {t("home.booksDesc")}
                   </p>
                 </div>
                 <div className="mt-8 font-label text-xs uppercase tracking-widest text-tertiary-fixed-dim">
-                  Explore Volumes
+                  {t("home.booksCta")}
                 </div>
               </div>
 
@@ -95,15 +96,14 @@ export default function Home() {
                     history_edu
                   </span>
                   <h4 className="font-headline mb-4 text-2xl text-primary">
-                    Articles
+                    {t("home.articlesTitle")}
                   </h4>
                   <p className="text-on-surface-variant">
-                    Scholarly critiques on ecclesiastical architecture and
-                    colonial governance.
+                    {t("home.articlesDesc")}
                   </p>
                 </div>
                 <div className="mt-8 font-label text-xs uppercase tracking-widest text-primary/60">
-                  Written Insights
+                  {t("home.articlesCta")}
                 </div>
               </div>
 
@@ -113,18 +113,17 @@ export default function Home() {
                     podcasts
                   </span>
                   <h4 className="font-headline mb-4 text-2xl text-primary">
-                    Podcast
+                    {t("home.podcastTitle")}
                   </h4>
                   <p className="text-on-surface-variant">
-                    Discussions with historians specializing in the syncretism of
-                    Medieval México.
+                    {t("home.podcastDesc")}
                   </p>
                 </div>
                 <Link
                   href="/podcast"
                   className="mt-8 flex items-center gap-2 font-label text-sm font-bold uppercase tracking-widest text-primary"
                 >
-                  Listen Now
+                  {t("home.podcastCta")}
                   <span className="material-symbols-outlined text-sm">
                     play_arrow
                   </span>
@@ -137,17 +136,16 @@ export default function Home() {
                     movie_filter
                   </span>
                   <h4 className="font-headline mb-4 text-2xl text-primary">
-                    Videos
+                    {t("home.videosTitle")}
                   </h4>
                   <p className="text-on-surface-variant">
-                    Cinematic tours of forgotten ruins and visual analyses of
-                    cathedral facades.
+                    {t("home.videosDesc")}
                   </p>
                 </div>
                 <div className="relative aspect-video w-full overflow-hidden bg-primary-container md:w-48">
                   <Image
                     src={VIDEO_THUMB}
-                    alt="Cathedral arches texture"
+                    alt={t("home.videoThumbAlt")}
                     fill
                     className="object-cover opacity-50"
                     sizes="(min-width: 768px) 192px, 100vw"
@@ -166,18 +164,17 @@ export default function Home() {
                     school
                   </span>
                   <h4 className="font-headline mb-4 text-2xl text-primary">
-                    Teaching
+                    {t("home.teachingTitle")}
                   </h4>
                   <p className="text-on-surface-variant">
-                    Curricula and pedagogical resources for medievalists in the
-                    digital age.
+                    {t("home.teachingDesc")}
                   </p>
                 </div>
                 <Link
                   href="#"
                   className="mt-8 font-label text-sm text-primary underline decoration-tertiary-fixed-dim decoration-2 underline-offset-4"
                 >
-                  Browse Resources
+                  {t("home.teachingCta")}
                 </Link>
               </div>
             </div>
@@ -189,7 +186,7 @@ export default function Home() {
             <div className="relative md:col-span-7">
               <Image
                 src={SPOTLIGHT_IMG}
-                alt="Colonial monastery cloisters with sunbeams through stone arches"
+                alt={t("home.spotlightImgAlt")}
                 width={1200}
                 height={900}
                 className="aspect-4/3 w-full object-cover shadow-2xl grayscale"
@@ -203,22 +200,19 @@ export default function Home() {
             </div>
             <div className="md:col-span-5">
               <h2 className="font-headline mb-4 text-sm uppercase tracking-widest text-tertiary-fixed-dim">
-                Spotlight Collection
+                {t("home.spotlightKicker")}
               </h2>
               <h3 className="font-headline mb-6 text-4xl leading-tight text-primary md:text-5xl">
-                The Forgotten Monastery of Izamal
+                {t("home.spotlightTitle")}
               </h3>
               <p className="mb-8 text-lg leading-relaxed text-on-surface-variant">
-                Unearthed from the dusty shelves of the Franciscan archives, this
-                collection chronicles the daily lives and spiritual synthesis of
-                the Maya and the Spanish friars during the pivotal years of the
-                16th century.
+                {t("home.spotlightBody")}
               </p>
               <Link
                 href="/libros"
                 className="font-label text-sm font-bold uppercase tracking-widest text-primary transition-colors hover:text-secondary"
               >
-                Examine the Scrolls
+                {t("home.spotlightCta")}
               </Link>
             </div>
           </div>
