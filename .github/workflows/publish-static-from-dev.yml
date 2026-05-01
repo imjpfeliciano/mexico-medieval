@@ -73,18 +73,27 @@ jobs:
           mkdir -p "${RUNNER_TEMP}/pages-export"
           rsync -a --delete landing/out/ "${RUNNER_TEMP}/pages-export/"
 
-      - name: Publish static-content on main
+      - name: Backup .github from dev (keep workflows on main)
+        run: |
+          mkdir -p "${RUNNER_TEMP}/dot-github-backup"
+          if [ -d .github ]; then
+            rsync -a .github/ "${RUNNER_TEMP}/dot-github-backup/"
+          fi
+
+      - name: Replace main branch root with static export
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout main
-          mkdir -p static-content
-          rsync -a --delete "${RUNNER_TEMP}/pages-export/" static-content/
-          git add static-content
+          find . -mindepth 1 -maxdepth 1 ! -name ".git" -exec rm -rf {} +
+          rsync -a "${RUNNER_TEMP}/pages-export/" ./
+          mkdir -p .github
+          rsync -a "${RUNNER_TEMP}/dot-github-backup/" .github/
+          git add -A
           if git diff --staged --quiet; then
-            echo "No changes to static-content; skipping commit."
+            echo "No changes; skipping commit."
           else
-            git commit -m "chore(pages): publish static site from landing (dev build)"
+            git commit -m "chore(pages): publish static site at repo root from landing (dev build)"
             git pull --rebase origin main
             git push origin main
           fi

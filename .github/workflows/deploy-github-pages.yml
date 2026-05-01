@@ -1,5 +1,5 @@
 # Runs on main so the github-pages environment allows deployment (branch protection).
-# Triggered after publish-static-from-dev.yml pushes updates under static-content/.
+# Triggered after publish-static-from-dev.yml replaces the repo root on main.
 
 name: Deploy GitHub Pages
 
@@ -7,8 +7,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "static-content/**"
   workflow_dispatch:
 
 permissions:
@@ -29,10 +27,15 @@ jobs:
         with:
           ref: main
 
+      - name: Prepare site root for Pages (exclude .git and .github)
+        run: |
+          mkdir -p "${RUNNER_TEMP}/gh-pages-upload"
+          rsync -a --exclude ".git" --exclude ".github" ./ "${RUNNER_TEMP}/gh-pages-upload/"
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: static-content
+          path: ${{ runner.temp }}/gh-pages-upload
 
   deploy:
     needs: upload
