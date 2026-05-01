@@ -13,74 +13,90 @@ const ARTICLES = [
     title:
       "The Making of Medieval Sardinia: A Historiographical Introduction",
     href: "https://doi.org/10.1163/9789004467545_002",
-    ctaLabel: "Ver artículo",
+    documentType: "article",
+    highlighted: true,
   },
   {
     year: "2020",
     title:
       "Discovery, Invention, and Supposition: Three Case Studies from Medieval Sardinia",
     href: "https://doi.org/10.1163/9789004467545_003",
-    ctaLabel: "Ver capítulo",
+    documentType: "bookChapter",
   },
   {
     year: "2020",
     title: "Rome Awards, Power and Society in Medieval Sardinia",
     href: "https://www.cambridge.org/core/journals/papers-of-the-british-school-at-rome/article/rome-awards-power-and-society-in-medieval-sardinia/A5E8FB6A67CB0CB452C1751CB0017CB1",
-    ctaLabel: "Ver artículo",
+    documentType: "article",
   },
   {
     year: "2019",
     title:
       "La Cerdeña Medieval vista desde la modernidad. Un epítome historiográfico de la supuesta conectividad mediterránea",
     href: "https://revistascientificas.uach.mx/index.php/qvadrata/article/view/114",
-    ctaLabel: "Ver artículo",
+    documentType: "article",
   },
   {
     year: "2019",
     title:
       "Royal comestabuli and Military Control in the Sicilian Kingdom: A Prosopographical Contribution to the Study of Italo-Norman Aristocracy",
     href: "https://scholarworks.wmich.edu/medpros/vol34/iss1/2/",
-    ctaLabel: "Ver artículo",
+    documentType: "article",
   },
   {
     year: "2016",
     title:
       "Social Network Analysis and Narrative Structures: Measuring Communication and Influence in a Medieval Source on the Kingdom of Sicily",
     href: "https://doi.org/10.55555/IS.14.148",
-    ctaLabel: "Ver artículo",
+    documentType: "article",
   },
   {
     year: "2016",
     title:
       "The Re-Arrangement of the Nobility Under the Hauteville Monarchy: The Creation of the South Italian Counties",
     href: "https://sites.exeter.ac.uk/exhistoria/archive/volume-8-2016/",
-    ctaLabel: "Ver artículo",
+    documentType: "article",
   },
   {
     year: "2014",
     title: "Social Positions in the Liber de Regno Sicilie",
     href: "https://ams.ceu.edu/2014.htm",
-    ctaLabel: "Ver artículo",
+    documentType: "article",
   },
   {
     year: "2009",
     title:
       "Modernidad política en la Edad Media: la experiencia y las instituciones normandas",
     href: "https://agora.colmex.mx/numero-6-2/",
-    ctaLabel: "Ver artículo",
+    documentType: "article",
   },
 ] as const;
 
 const PEER_REVIEWED_ARTICLES = [...ARTICLES]
-  .filter((a) => a.ctaLabel === "Ver artículo")
+  .filter((a) => a.documentType === "article")
   .sort((a, b) => Number(b.year) - Number(a.year));
 
-const HIGHLIGHTED_ARTICLE = PEER_REVIEWED_ARTICLES[0];
+const highlightedFromData = [...ARTICLES].find(
+  (a) => "highlighted" in a && a.highlighted === true,
+);
+
+const HIGHLIGHTED_ARTICLE =
+  highlightedFromData ??
+  PEER_REVIEWED_ARTICLES[0];
 
 const JOURNAL_ARTICLE_EXCERPT =
   "Artículo de investigación publicado en revista especializada o acta académica.";
 
-const JOURNAL_ARTICLES = PEER_REVIEWED_ARTICLES.slice(1).map((a) => ({
+const BOOK_CHAPTER_EXCERPT =
+  "Capítulo académico dictaminado por pares en volumen colectivo.";
+
+const JOURNAL_ARTICLES = PEER_REVIEWED_ARTICLES.filter(
+  (a) =>
+    !(
+      HIGHLIGHTED_ARTICLE?.documentType === "article" &&
+      a.href === HIGHLIGHTED_ARTICLE.href
+    ),
+).map((a) => ({
   meta: `Peer-reviewed • ${a.year}`,
   title: a.title,
   excerpt: JOURNAL_ARTICLE_EXCERPT,
@@ -88,7 +104,7 @@ const JOURNAL_ARTICLES = PEER_REVIEWED_ARTICLES.slice(1).map((a) => ({
 }));
 
 const BOOK_CHAPTERS = [...ARTICLES]
-  .filter((a) => a.ctaLabel === "Ver capítulo")
+  .filter((a) => a.documentType === "bookChapter")
   .sort((a, b) => Number(b.year) - Number(a.year))
   .map((a) => ({
     chapter: `Capítulo • ${a.year}`,
@@ -151,12 +167,18 @@ export default function ArticulosPage() {
                     {HIGHLIGHTED_ARTICLE.title}
                   </h3>
                   <div className="mb-6 flex flex-wrap items-center gap-4 text-sm font-medium text-on-surface-variant">
-                    <span>Peer-reviewed</span>
+                    <span>
+                      {HIGHLIGHTED_ARTICLE.documentType === "article"
+                        ? "Peer-reviewed"
+                        : "Book chapter"}
+                    </span>
                     <span className="h-1 w-1 rounded-full bg-outline" />
                     <span>{HIGHLIGHTED_ARTICLE.year}</span>
                   </div>
                   <p className="mb-8 max-w-xl leading-relaxed text-on-surface-variant">
-                    {JOURNAL_ARTICLE_EXCERPT}
+                    {HIGHLIGHTED_ARTICLE.documentType === "article"
+                      ? JOURNAL_ARTICLE_EXCERPT
+                      : BOOK_CHAPTER_EXCERPT}
                   </p>
                   <div>
                     <a
@@ -165,7 +187,9 @@ export default function ArticulosPage() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-3 bg-primary px-8 py-4 font-semibold text-on-primary shadow-lg shadow-primary/10 transition-all hover:opacity-90"
                     >
-                      View Full Source
+                      {HIGHLIGHTED_ARTICLE.documentType === "article"
+                        ? "View Full Source"
+                        : "View Chapter"}
                       <span className="material-symbols-outlined text-lg">
                         open_in_new
                       </span>
