@@ -1,13 +1,18 @@
+# Runs on main so the github-pages environment allows deployment (branch protection).
+# Triggered after publish-static-from-dev.yml pushes updates under static-content/.
+
 name: Deploy GitHub Pages
 
 on:
   push:
     branches:
-      - dev
+      - main
+    paths:
+      - "static-content/**"
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -16,80 +21,13 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  upload:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout dev (Next.js source)
+      - name: Checkout main
         uses: actions/checkout@v4
         with:
-          ref: dev
-          fetch-depth: 0
-
-      - name: Fetch main for later publish
-        run: git fetch origin main
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "24"
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: echo "STORE_PATH=$(pnpm store path)" >> "$GITHUB_OUTPUT"
-
-      - name: Cache pnpm store
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('landing/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
-
-      - name: Install dependencies
-        run: |
-          test -f "${{ github.workspace }}/landing/package.json"
-          test -f "${{ github.workspace }}/landing/pnpm-lock.yaml"
-          pnpm --dir "${{ github.workspace }}/landing" install --frozen-lockfile
-
-      - name: Build static site
-        run: pnpm --dir "${{ github.workspace }}/landing" run build
-
-      - name: Add CNAME for custom domain
-        run: |
-          if [ -f static-content/CNAME ]; then
-            cp static-content/CNAME landing/out/CNAME
-          elif [ -f static-html/CNAME ]; then
-            cp static-html/CNAME landing/out/CNAME
-          else
-            printf '%s\n' 'www.mexicomedieval.org' > landing/out/CNAME
-          fi
-
-      - name: Stage export outside repo
-        run: |
-          mkdir -p "${RUNNER_TEMP}/pages-export"
-          rsync -a --delete landing/out/ "${RUNNER_TEMP}/pages-export/"
-
-      - name: Publish static-content on main
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout main
-          mkdir -p static-content
-          rsync -a --delete "${RUNNER_TEMP}/pages-export/" static-content/
-          git add static-content
-          if git diff --staged --quiet; then
-            echo "No changes to static-content; skipping commit."
-          else
-            git commit -m "chore(pages): publish static site from landing (dev build)"
-            git pull --rebase origin main
-            git push origin main
-          fi
+          ref: main
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -97,7 +35,7 @@ jobs:
           path: static-content
 
   deploy:
-    needs: build
+    needs: upload
     runs-on: ubuntu-latest
     environment:
       name: github-pages
