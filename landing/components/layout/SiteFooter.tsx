@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { isNewsletterSubscriptionsEnabled } from "@/lib/feature-flags";
 import {
   footerExploreLinks,
   footerLegalLinks,
@@ -12,13 +13,17 @@ const footerLinkClass =
   "text-sm text-primary-container decoration-tertiary-fixed-dim underline-offset-4 transition-colors hover:text-primary hover:underline dark:text-surface-variant/90 dark:hover:text-tertiary-fixed";
 
 export function SiteFooter() {
+  const showNewsletter = isNewsletterSubscriptionsEnabled();
+
   return (
     <footer
       className="mt-auto w-full border-t-4 border-tertiary-fixed-dim bg-[#f2ede3] dark:bg-[#1d1c16]"
       role="contentinfo"
     >
       <div className="mx-auto max-w-screen-2xl px-6 py-16 md:px-12">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+        <div
+          className={`grid gap-12 md:grid-cols-2 ${showNewsletter ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}
+        >
           <div className="space-y-4">
             <div className="font-headline text-xl text-primary italic dark:text-tertiary-fixed-dim">
               México Medieval
@@ -55,13 +60,15 @@ export function SiteFooter() {
             </ul>
           </nav>
 
-          <div>
-            <h2 className={footerHeadingClass}>Newsletter</h2>
-            <p className="mb-4 text-sm text-primary-container/80 dark:text-surface-variant/75">
-              Occasional updates on new digitized material and episodes.
-            </p>
-            <FooterNewsletterForm />
-          </div>
+          {showNewsletter ? (
+            <div>
+              <h2 className={footerHeadingClass}>Newsletter</h2>
+              <p className="mb-4 text-sm text-primary-container/80 dark:text-surface-variant/75">
+                Occasional updates on new digitized material and episodes.
+              </p>
+              <FooterNewsletterForm />
+            </div>
+          ) : null}
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-6 border-t border-outline-variant/20 pt-8 md:flex-row dark:border-outline-variant/30">

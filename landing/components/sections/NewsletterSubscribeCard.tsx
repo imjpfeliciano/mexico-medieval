@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useId } from "react";
+import { isNewsletterSubscriptionsEnabled } from "@/lib/feature-flags";
 
 export type NewsletterSubscribeCardProps = {
   title?: string;
@@ -21,7 +22,7 @@ const defaultPlaceholder = "Your electronic scroll address";
 
 const defaultSubmitLabel = "Join the Circle";
 
-export function NewsletterSubscribeCard({
+function NewsletterSubscribeCardImpl({
   title = defaultTitle,
   description = defaultDescription,
   placeholder = defaultPlaceholder,
@@ -95,4 +96,9 @@ export function NewsletterSubscribeCard({
       </div>
     </section>
   );
+}
+
+export function NewsletterSubscribeCard(props: NewsletterSubscribeCardProps) {
+  if (!isNewsletterSubscriptionsEnabled()) return null;
+  return <NewsletterSubscribeCardImpl {...props} />;
 }

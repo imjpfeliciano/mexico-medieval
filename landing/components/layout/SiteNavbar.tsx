@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { isNewsletterSubscriptionsEnabled } from "@/lib/feature-flags";
 import { isNavItemActive, siteNavItems } from "@/lib/site-nav-config";
 
 function navLinkClass(active: boolean) {
@@ -12,6 +13,7 @@ function navLinkClass(active: boolean) {
 
 export function SiteNavbar() {
   const pathname = usePathname() ?? "";
+  const showNewsletter = isNewsletterSubscriptionsEnabled();
 
   return (
     <nav
@@ -63,12 +65,14 @@ export function SiteNavbar() {
           >
             search
           </button>
-          <button
-            type="button"
-            className="bg-primary px-6 py-2 font-label text-sm uppercase tracking-widest text-on-primary transition-transform hover:opacity-90 active:scale-95"
-          >
-            Subscribe
-          </button>
+          {showNewsletter ? (
+            <button
+              type="button"
+              className="bg-primary px-6 py-2 font-label text-sm uppercase tracking-widest text-on-primary transition-transform hover:opacity-90 active:scale-95"
+            >
+              Subscribe
+            </button>
+          ) : null}
         </div>
       </div>
     </nav>
