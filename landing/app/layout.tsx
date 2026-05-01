@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Noto_Serif, Work_Sans } from "next/font/google";
-import { cookies } from "next/headers";
 import { LocaleProvider } from "@/components/i18n/LocaleProvider";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteNavbar } from "@/components/layout/SiteNavbar";
-import { LOCALE_COOKIE, normalizeLocale } from "@/lib/i18n-config";
+import { defaultLocale } from "@/lib/i18n-config";
 import en from "@/messages/en.json";
 import es from "@/messages/es.json";
 import "./globals.css";
@@ -23,9 +22,7 @@ const workSans = Work_Sans({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const cookieStore = await cookies();
-  const locale = normalizeLocale(cookieStore.get(LOCALE_COOKIE)?.value);
-  const meta = locale === "es" ? es.metadata : en.metadata;
+  const meta = defaultLocale === "es" ? es.metadata : en.metadata;
   return {
     title: meta.siteTitle,
     description: meta.siteDescription,
@@ -37,12 +34,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const initialLocale = normalizeLocale(cookieStore.get(LOCALE_COOKIE)?.value);
-
   return (
     <html
-      lang={initialLocale}
+      lang={defaultLocale}
       className={`light ${notoSerif.variable} ${workSans.variable} h-full antialiased`}
     >
       <head>
@@ -52,7 +46,7 @@ export default async function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col font-body selection:bg-tertiary-fixed-dim selection:text-on-tertiary-fixed bg-background text-on-background">
-        <LocaleProvider key={initialLocale} initialLocale={initialLocale}>
+        <LocaleProvider key={defaultLocale} initialLocale={defaultLocale}>
           <SiteNavbar />
           <div className="flex flex-1 flex-col">{children}</div>
           <SiteFooter />

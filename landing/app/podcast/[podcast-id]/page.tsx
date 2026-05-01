@@ -2,11 +2,10 @@ import {
   getAllPodcastSlugs,
   getPodcastBySlug,
 } from "@/lib/podcast-episodes";
-import { LOCALE_COOKIE, normalizeLocale } from "@/lib/i18n-config";
+import { defaultLocale } from "@/lib/i18n-config";
 import en from "@/messages/en.json";
 import es from "@/messages/es.json";
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { PodcastDetailView } from "./podcast-detail-view";
 
@@ -25,10 +24,8 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { "podcast-id": podcastId } = await params;
   const episode = getPodcastBySlug(podcastId);
-  const cookieStore = await cookies();
-  const locale = normalizeLocale(cookieStore.get(LOCALE_COOKIE)?.value);
   const fallbackTitle =
-    locale === "es"
+    defaultLocale === "es"
       ? es.podcastDetail.fallbackTitle
       : en.podcastDetail.fallbackTitle;
   if (!episode) {
